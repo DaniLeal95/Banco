@@ -129,38 +129,57 @@ public class CuentaImp implements  Cuenta, Serializable {
 		public int CogerUltimaID()
 		{
 			//variables 
-			int id=1;
+			int id=0;
 			
 			File f=null;
 			FileInputStream fis=null;
 	  		ObjectInputStream ois=null;
 			
-	  		try{
+	  		
 	  			//abro el fichero para leer
 	  			f=new File("idcuenta.dat");
-	  			fis=new FileInputStream(f);
-	  			ois=new ObjectInputStream (fis);
-	  			int aux=ois.readInt();
-	  			while(aux!=-1){
-	  				id=aux;
-	  				aux=ois.readInt();
+	  			
+	  														/*Si el archivo existe leemos*/
+	  			if(f.exists()){
+	  				
+	  				try{
+	  					fis=new FileInputStream(f);
+	  				
+	  					ois=new ObjectInputStream (fis);
+	  					int aux=ois.readInt();
+	  					while(aux!=-1){
+	  						id=aux;
+	  						aux=ois.readInt();
+	  					}
+	  				
+	  				}catch(FileNotFoundException fnfe){
+	  		  			System.out.println(fnfe);
+	  		  		}
+	  		  		catch(EOFException eofe){
+	  		  		
+	  		  		}catch(IOException io){
+	  					  System.out.println("Ha ocurrido un error " +io);
+	  				
+	  		  		}finally{
+	  					  try{								//cerramos el archivo
+	  						  ois.close();
+	  					  }catch(IOException ioe){
+	  						  System.out.println(ioe);
+	  					  }
+	  				  }
+	  				
+	  			}//fin if
+	  			
+	  			
+	  			else{										/*Si no pues lo crearemos*/
+	  				escribirUltimaID(id);
+	  				
 	  			}
 	  			
+	  		
 				
-				
-	  		//  }catch(FileNotFoundException fnfe){
-	  			
-			  }catch(EOFException eofe){
-				  System.out.println("Fin de fichero " +eofe);
-			  }catch(IOException io){
-				  System.out.println("Ha ocurrido un error " +io);
-			  }finally{
-				  try{
-					  ois.close();
-				  }catch(IOException ioe){
-					  System.out.println(ioe);
-				  }
-			  }//fin finally
+	  		//fin finally
+	  		
 	  		
 	  			
 			return(id);

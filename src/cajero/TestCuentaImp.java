@@ -12,9 +12,11 @@ public class TestCuentaImp {
 
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
+		
+		GestionFicheros gf=new GestionFicheros();
 
 		try {
-
+			
 			CuentaImp cuenta1 = new CuentaImp(500);
 			CuentaImp cuenta2 = new CuentaImp(700);
 			CuentaImp cuenta3 = new CuentaImp(900);
@@ -29,7 +31,7 @@ public class TestCuentaImp {
 
 			// Abrir fichero para escribir
 			f = new File("CuentaMaestro.dat");
-			fos = new FileOutputStream(f);
+			fos = new FileOutputStream(f,true);
 			oos = new ObjectOutputStream(fos);
 			// Introducir datos
 			oos.writeObject(cuenta1);
@@ -38,8 +40,11 @@ public class TestCuentaImp {
 			oos.writeObject(cuenta4);
 			oos.writeObject(cuenta5);
 		
-		} catch (Exception e) {
-			System.out.println(e);
+		} catch (IOException ioe) {
+			System.out.println(ioe);
+		} catch (ExcepcionPersona e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		finally {
@@ -49,7 +54,7 @@ public class TestCuentaImp {
 					oos.close();
 				} catch (IOException e) {
 
-					e.printStackTrace();
+					System.out.println(e);
 				}
 			}
 
