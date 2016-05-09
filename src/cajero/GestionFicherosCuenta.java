@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class GestionFicheros {
+public class GestionFicherosCuenta {
 	/*
 	 * Metodo mostrarFichero
 	 * 	Breve Comentario:
@@ -49,6 +49,16 @@ public class GestionFicheros {
 		} catch (ClassNotFoundException cnfe) {
 			System.out.println(cnfe);
 		}
+	}
+	
+	
+	/*
+	 * Breve comentario
+	 * 	 Este metodo  recibira por parametros el nombre del fichero y el objeto que desee incluir
+	 * 
+	 * */
+	public void escribirMaestro(String fichero,Object o){
+		
 	}
 	
 	

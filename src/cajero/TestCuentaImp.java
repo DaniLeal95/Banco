@@ -13,7 +13,7 @@ public class TestCuentaImp {
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		
-		GestionFicheros gf=new GestionFicheros();
+		GestionFicherosCuenta gf=new GestionFicherosCuenta();
 
 		try {
 			

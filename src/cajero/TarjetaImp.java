@@ -3,10 +3,14 @@ package cajero;
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class TarjetaImp implements Tarjeta {
 	/* 
@@ -22,12 +26,17 @@ public class TarjetaImp implements Tarjeta {
 	
 	//constructores
 	public TarjetaImp(){
-		if(contadortarjeta!=0){numtarjeta=contadortarjeta++;}
-		else{ 
-			numtarjeta=this.CogerUltimaID()+1;
+		if(contadortarjeta!=0){
+			numtarjeta=contadortarjeta++;
+			
 			
 		}
-		this.escribirUltimaID(numtarjeta);
+		else{ 
+			numtarjeta=this.CogerUltimaID()+1;
+			this.escribirUltimaID(numtarjeta);
+			
+		}
+		
 		tipo=' ';
 	}
 	
@@ -93,38 +102,61 @@ public class TarjetaImp implements Tarjeta {
 	   * */
 
 		@Override
+
 		public int CogerUltimaID()
 		{
 			//variables 
-			int id=1;
+			int id=0;
+			
 			File f=null;
-			FileReader fr=null;
-			BufferedReader br=null;
+			FileInputStream fis=null;
+	  		ObjectInputStream ois=null;
 			
 	  		
-	  		try{
 	  			//abro el fichero para leer
-	  			f=new File("idtarjeta.txt");
-	  			fr=new FileReader(f);
-	  			br=new BufferedReader(fr);
-	  			String aux=br.readLine();
-	  			while(aux!=null){
-	  				id=Integer.parseInt(aux);
-	  				aux=br.readLine();
+	  			f=new File("idtarjeta.dat");
+	  			
+	  														/*Si el archivo existe leemos*/
+	  			if(f.exists()){
+	  				
+	  				try{
+	  					fis=new FileInputStream(f);
+	  				
+	  					ois=new ObjectInputStream (fis);
+	  					int aux=ois.readInt();
+	  					while(aux!=-1){
+	  						id=aux;
+	  						aux=ois.readInt();
+	  					}
+	  				
+	  				}catch(FileNotFoundException fnfe){
+	  		  			System.out.println(fnfe);
+	  		  		}
+	  		  		catch(EOFException eofe){
+	  		  		
+	  		  		}catch(IOException io){
+	  					  System.out.println("Ha ocurrido un error " +io);
+	  				
+	  		  		}finally{
+	  					  try{								//cerramos el archivo
+	  						  ois.close();
+	  					  }catch(IOException ioe){
+	  						  System.out.println(ioe);
+	  					  }
+	  				  }
+	  				
+	  			}//fin if
+	  			
+	  			
+	  			else{										/*Si no pues lo crearemos*/
+	  				escribirUltimaID(id);
+	  				
 	  			}
+	  			
+	  		
 				
-				  
-			  }catch(EOFException eofe){
-				  System.out.println("Fin de fichero " +eofe);
-			  }catch(IOException io){
-				  System.out.println("Ha ocurrido un error " +io);
-			  }finally{
-				  try{
-					  fr.close();
-				  }catch(IOException ioe){
-					  System.out.println(ioe);
-				  }
-			  }//fin finally
+	  		//fin finally
+	  		
 	  		
 	  			
 			return(id);
@@ -146,28 +178,72 @@ public class TarjetaImp implements Tarjeta {
 
 	@Override
 	public void escribirUltimaID(int id){
-		FileWriter fw=null;
-
-		
-		try{
-			//abro el fichero para leer
-			fw=new FileWriter("idtarjeta.txt");
-			
-			fw.write( id);
+		File f=null;
+		FileOutputStream fos=null;
+		ObjectOutputStream oos=null;
+  		
+  		try{
+  			//abro el fichero para leer
+  			f=new File("idtarjeta.dat");
+  			
+  			fos=new	FileOutputStream(f);
+  			
+  			oos=new ObjectOutputStream(fos);
+  			
+  			oos.writeInt(id);
 	}catch(FileNotFoundException fnfe){
 		System.out.println(fnfe);
 	} catch (IOException ioe) {
 		System.out.println(ioe);
 	}finally{
 		try {
-			fw.close();
+			oos.close();
 		} catch (IOException ioe) {
 			System.out.println(ioe);
 		}
 	}
-}
+ } 
+	/*
+	   * Estudio de la interfaz de escribirUltimaID
+	   * 
+	   * Comentario: 
+	   * 	El metodo sobreescribir� la Id escrita en el fichero, pero sin cabecera
+	   * Cabecera: 
+	   * 	long CogerUltimaID()
+	   * Precondiciones:Nada
+	   * 	
+	   * Entradas:Nada
+	   * Salidas:un long (ID)
+	   * Postcondiciones:
+	   * 	El long retornara asociado al nombre -> Funcion
+	   * */	
 	
-	
+	public void escribirUltimaIDsinCabecera(int id){
+		File f=null;
+		FileOutputStream fos=null;
+		MiObjectOutputStream oos=null;
+  		
+  		try{
+  			//abro el fichero para leer
+  			f=new File("idtarjeta.dat");
+  			
+  			fos=new	FileOutputStream(f);
+  			
+  			oos=new MiObjectOutputStream(fos);
+  			
+  			oos.writeInt(id);
+	}catch(FileNotFoundException fnfe){
+		System.out.println(fnfe);
+	} catch (IOException ioe) {
+		System.out.println(ioe);
+	}finally{
+		try {
+			oos.close();
+		} catch (IOException ioe) {
+			System.out.println(ioe);
+		}
+	}
+ }
 	
 	
 	
