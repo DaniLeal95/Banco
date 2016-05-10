@@ -5,7 +5,7 @@ package cajero;
  * Propiedades:
  * 
  * 	Numero De Cuenta- int , consultable
- * 	Titular - String , consultable y modificable
+ * 	Saldo- int, consultable y modificable
  * 	
  * 	Compartida
  * 		CONTADOR- long(6 cifras) - consultable y modificable
@@ -16,13 +16,16 @@ package cajero;
  * */
 public interface Cuenta {
 	//Consultores
-	int getNumCuenta();
+	public int getNumCuenta();
+	public long getSaldo();
+	//modificadores
+	public void setSaldo(long saldo);
 	
 	 /*
 	   * Estudio de la interfaz de CogerUltimaID
 	   * 
 	   * Comentario: 
-	   * 	El metodo recogera La ultima ID,que esté registrado y retornará la id
+	   * 	El metodo recogera La ultima ID,que estï¿½ registrado y retornarï¿½ la id
 	   * Cabecera: 
 	   * 	long CogerUltimaID()
 	   * Precondiciones:
@@ -39,7 +42,7 @@ public interface Cuenta {
 	   * Estudio de la interfaz de escribirUltimaID
 	   * 
 	   * Comentario: 
-	   * 	El metodo sobreescribirá la Id escrita en el fichero
+	   * 	El metodo sobreescribirï¿½ la Id escrita en el fichero
 	   * Cabecera: 
 	   * 	void escribirUltimaID()
 	   * 

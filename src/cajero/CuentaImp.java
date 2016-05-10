@@ -15,6 +15,28 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+
+/*
+ *Restricciones :
+ **************
+ * 	Ninguna
+ *
+ * Funcionalidades:
+ * ***************
+ * 	
+ * 	Añadidas:
+ *	********
+ *		Ninguna
+ *
+ *	Heredadadas:
+ *	************
+ *		boolean equals(CuentaImp),
+ *		int hashCode(),
+ *		void toString()
+ * 
+ * 
+ */
+
 public class CuentaImp implements  Cuenta, Serializable {
 
 	
@@ -47,7 +69,7 @@ public class CuentaImp implements  Cuenta, Serializable {
 		
 	}
 	
-	public CuentaImp(long saldo) throws ExcepcionPersona{
+	public CuentaImp(long saldo){
 		
 	
 			this.saldo=saldo;
@@ -74,9 +96,7 @@ public class CuentaImp implements  Cuenta, Serializable {
 		this.saldo=saldo; 
 		
 	}
-	public int getContador(){
-		return this.contador;
-	}
+
 	
 	
 	@Override

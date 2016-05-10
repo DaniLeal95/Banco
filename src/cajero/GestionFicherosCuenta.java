@@ -13,9 +13,9 @@ public class GestionFicherosCuenta {
 	/*
 	 * Metodo mostrarFichero
 	 * 	Breve Comentario:
-	 * 		Este metodo pinta en pantalla todos los clientes que tenemos registrados en el fichero.
+	 * 		Este metodo pinta en pantalla todos las Cuentas que tenemos registrados en el fichero.
 	 * 	Cabecera:
-	 * 		void mostrarFichero(String fichero)
+	 * 		void mostrarFichero()
 	 * 	Precondiciones:
 	 * 		Nada
 	 * 	Entradas:
@@ -26,12 +26,12 @@ public class GestionFicherosCuenta {
 	 * 		Nada  
 	 * 
 	 * */
-	public void mostrarFichero(String fichero){
+	public void mostrarFichero(){
 		File f=null;
 		FileInputStream fis=null;
 		ObjectInputStream ois=null;
 		try{
-			f=new File(fichero);
+			f=new File("CuentaMaestro.dat");
 			fis=new FileInputStream(f);
 			ois=new ObjectInputStream(fis);
 			
@@ -53,11 +53,54 @@ public class GestionFicherosCuenta {
 	
 	
 	/*
-	 * Breve comentario
-	 * 	 Este metodo  recibira por parametros el nombre del fichero y el objeto que desee incluir
+	 * Breve comentario:
+	 * ****************
+	 * 	 Este metodo  recibira por parametros la cuenta que desee escribir,
+	 * 		y escribirá en el fichero esa cuenta si es posible.
+	 * Cabecera:
+	 * ********
+	 * 	void escribirMaestro(Cuenta c)
 	 * 
+	 * Precondiciones:
+	 * **************
+	 * 	Nada	
+	 * 
+	 * Entradas:
+	 * *********
+	 * La cuenta a insertar
+	 * 
+	 * Salida:
+	 * *******
+	 * Nada
+	 * 
+	 * Postcondicones:
+	 * **************
+	 * Nada
+	 *  *
 	 * */
-	public void escribirMaestro(String fichero,Object o){
+	public void escribirMaestro(Cuenta c){
+		File f=null;
+		FileOutputStream fos=null;
+		MiObjectOutputStream mioos=null;
+		try{
+			f=new File("CuentaMaestro.dat");
+			fos=new FileOutputStream(f,true);
+			mioos=new MiObjectOutputStream(fos);
+			
+			mioos.writeObject(c);
+			
+			
+		}catch(IOException ioe){
+			System.out.println(ioe);
+		}finally{
+			try{
+				mioos.close();
+				
+			}catch(IOException ioe){
+				System.out.println(ioe);
+			}
+		}
+		
 		
 	}
 	
