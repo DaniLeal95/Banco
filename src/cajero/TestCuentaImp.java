@@ -1,54 +1,32 @@
 package cajero;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-
 public class TestCuentaImp {
 
 	public static void main(String[] args) {
-		File f = null;
-
-		FileOutputStream fos = null;
-		ObjectOutputStream oos = null;
 		
-		
-		GestionFicherosCuenta gf=new GestionFicherosCuenta();
-
+			
 		try {
+			TarjetaImp t1=new TarjetaImp('D');
+			TarjetaImp t2=new TarjetaImp('C');
+			TarjetaImp t3=new TarjetaImp('C');
+			TarjetaImp t4=new TarjetaImp('D');
+			CuentaImp c1=new CuentaImp(500);
+			CuentaImp c2=new CuentaImp(900);
 			
-			CuentaImp cuenta1 = new CuentaImp(500);
-			// Abrir fichero para escribir
-			f = new File("CuentaMaestro.dat");
-			fos = new FileOutputStream(f.getAbsoluteFile());
-			oos = new ObjectOutputStream(fos);
+			c1.setTarjeta(t1);
+			c1.setTarjeta(t3);
+			c2.setTarjeta(t2);
+			c2.setTarjeta(t4);
 			
+			
+			System.out.println(c1.toString());
+			System.out.println(c2.toString());
+			System.out.println(c1.getTipo());
 		
-		} catch (IOException ioe) {
-			System.out.println(ioe);
+		} catch (TarjetaExcepcion te) {
+			System.out.println(te);
 		}
-
-		finally {
-			if (oos != null) {
-				try {
-					// Cerrar fichero
-					oos.close();
-				} catch (IOException e) {
-
-					System.out.println(e);
-				}
-			}
-
-		}
-
-			
-			
 		
-		
-		
-		
-
 	}
 
 }

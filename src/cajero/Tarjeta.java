@@ -12,11 +12,11 @@ public interface Tarjeta {
 	 * 			-int contador
 	 * */
 	//consultores y modificadores
-	char getTipo();
+	public char getTipo();
 
-	void setTipo(char tipo) throws TarjetaExcepcion;
+	public void setTipo(char tipo) throws TarjetaExcepcion;
 
-	int getNumtarjeta();
+	public int getNumtarjeta();
 	  /*
 	   * Estudio de la interfaz de CogerUltimaID
 	   * 

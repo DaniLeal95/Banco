@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Vector;
 
 
 /*
@@ -24,9 +25,9 @@ import java.io.Serializable;
  * Funcionalidades:
  * ***************
  * 	
- * 	AÃ±adidas:
+ * 	Aniadidas:
  *	********
- *		Ninguna
+ *		void SetTarjeta(TarjetaImp t)
  *
  *	Heredadadas:
  *	************
@@ -37,7 +38,7 @@ import java.io.Serializable;
  * 
  */
 
-public class CuentaImp implements  Cuenta, Serializable {
+public class CuentaImp implements  Tarjeta,Cuenta, Serializable {
 
 	
 	
@@ -50,6 +51,8 @@ public class CuentaImp implements  Cuenta, Serializable {
 	//ATRIBUTOS
 	private int numCuenta;
 	private long saldo;
+	private Vector<TarjetaImp> tarjetas;
+	
 
 	
 	//PropiedadesCompartidas
@@ -65,7 +68,7 @@ public class CuentaImp implements  Cuenta, Serializable {
 			
 		}
 		this.escribirUltimaID(numCuenta);
-		
+		tarjetas=null;
 		
 	}
 	
@@ -77,7 +80,7 @@ public class CuentaImp implements  Cuenta, Serializable {
 			else numCuenta=this.CogerUltimaID()+1;
 			
 			this.escribirUltimaID(numCuenta);
-			
+			tarjetas=new Vector<TarjetaImp>(0,1);
 		
 
 	}
@@ -96,7 +99,62 @@ public class CuentaImp implements  Cuenta, Serializable {
 		this.saldo=saldo; 
 		
 	}
-
+	
+	
+	//-------------------------------------------
+	/*IMPLEMENTADAS DE LA INTERFACES DE TARJETA*/
+	@Override																//REVISAR
+	public char getTipo(){
+		return ((Tarjeta) tarjetas).getTipo();
+	}
+	@Override
+	 public int getNumtarjeta() {
+		 return ((Tarjeta) tarjetas).getNumtarjeta();
+	}
+	@Override
+	public void setTipo(char tipo) throws TarjetaExcepcion{
+		((Tarjeta)this.tarjetas).setTipo(tipo);
+	}
+	/*-----------------------------------------*/
+	
+	
+	
+	/*-------------------------
+	 * FUNCIONALIDADES AÑADIDAS
+	 * ------------------------
+	 * */
+	
+	/*
+	 * setTarjeta
+	 * 	Breve Comentario:
+	 * -----------------
+	 * 		Este metodo recibe por parametros una TarjetaImp y lo añade al vector de tarjetas
+	 * 
+	 * 	Cabecera:
+	 * ----------
+	 * 		void setTarjeta(TarjetaImp t)
+	 * 		
+	 * Precondiciones:
+	 * --------------
+	 * 		Nada
+	 * 
+	 * Entradas:
+	 * ----------
+	 * 		Una tarjetaImp
+	 * 
+	 * Salidas:
+	 * ---------
+	 * 		Nada
+	 * 
+	 * Postcondiciones:
+	 * ----------------
+	 * 		Nada
+	 * 
+	 * */
+	
+	public void setTarjeta(TarjetaImp t){
+		this.tarjetas.add(t);
+	}
 	
 	
 	@Override
@@ -246,8 +304,10 @@ public class CuentaImp implements  Cuenta, Serializable {
 
 	@Override
 	public String toString() {
-		return "CuentaImp [NumCuenta= " + numCuenta + " Saldo= "+saldo+"]";
+		return "[numCuenta=" + numCuenta + ", saldo=" + saldo + ", tarjetas=" + tarjetas + "]";
 	}
+
+
 
 
 

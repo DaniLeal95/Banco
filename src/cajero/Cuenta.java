@@ -14,7 +14,7 @@ package cajero;
  * 
  * 
  * */
-public interface Cuenta {
+public interface Cuenta{
 	//Consultores
 	public int getNumCuenta();
 	public long getSaldo();

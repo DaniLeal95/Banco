@@ -293,7 +293,7 @@ public class TarjetaImp implements Tarjeta {
 		String tip;
 		if(tipo=='C')tip="Credito";	//esto simplemente es estetico, 
 		else tip="Debito";			//para que en vez que en el toString muestre un char nos muestre una cadena 
-		return "TarjetaImp [tipo=" + tip + ", numtarjeta=" + (numtarjeta) + "]";
+		return "[tipo=" + tip + ", numtarjeta=" + (numtarjeta) + "]";
 	}
 
 	
