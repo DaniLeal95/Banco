@@ -38,7 +38,7 @@ import java.util.Vector;
  * 
  */
 
-public class CuentaImp implements  Tarjeta,Cuenta, Serializable {
+public class CuentaImp implements  Cuenta, Serializable {
 
 	
 	
@@ -101,26 +101,10 @@ public class CuentaImp implements  Tarjeta,Cuenta, Serializable {
 	}
 	
 	
-	//-------------------------------------------
-	/*IMPLEMENTADAS DE LA INTERFACES DE TARJETA*/
-	@Override																//REVISAR
-	public char getTipo(){
-		return ((Tarjeta) tarjetas).getTipo();
-	}
-	@Override
-	 public int getNumtarjeta() {
-		 return ((Tarjeta) tarjetas).getNumtarjeta();
-	}
-	@Override
-	public void setTipo(char tipo) throws TarjetaExcepcion{
-		((Tarjeta)this.tarjetas).setTipo(tipo);
-	}
-	/*-----------------------------------------*/
-	
 	
 	
 	/*-------------------------
-	 * FUNCIONALIDADES AÑADIDAS
+	 * FUNCIONALIDADES Aï¿½ADIDAS
 	 * ------------------------
 	 * */
 	
@@ -128,7 +112,7 @@ public class CuentaImp implements  Tarjeta,Cuenta, Serializable {
 	 * setTarjeta
 	 * 	Breve Comentario:
 	 * -----------------
-	 * 		Este metodo recibe por parametros una TarjetaImp y lo añade al vector de tarjetas
+	 * 		Este metodo recibe por parametros una TarjetaImp y lo aï¿½ade al vector de tarjetas
 	 * 
 	 * 	Cabecera:
 	 * ----------

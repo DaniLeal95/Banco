@@ -21,7 +21,6 @@ public class TestCuentaImp {
 			
 			System.out.println(c1.toString());
 			System.out.println(c2.toString());
-			System.out.println(c1.getTipo());
 		
 		} catch (TarjetaExcepcion te) {
 			System.out.println(te);
