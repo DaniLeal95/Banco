@@ -16,7 +16,7 @@ public interface Tarjeta {
 
 	public void setTipo(char tipo) throws TarjetaExcepcion;
 
-	public int getNumtarjeta();
+	public long getNumtarjeta();
 	  /*
 	   * Estudio de la interfaz de CogerUltimaID
 	   * 
@@ -32,7 +32,7 @@ public interface Tarjeta {
 	   * 	El long retornara asociado al nombre -> Funcion
 	   * */
 	  
-	int CogerUltimaID();
+	long CogerUltimaID();
 	/*
 	 * Estudio de la interfaz de escribirUltimaID
 	 * 
@@ -48,6 +48,6 @@ public interface Tarjeta {
 	 * 	El long retornara asociado al nombre -> Funcion
 	 * */
 
-	void escribirUltimaID(int id);
+	void escribirUltimaID(long id);
 
 }

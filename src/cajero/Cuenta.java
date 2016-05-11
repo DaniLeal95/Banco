@@ -16,10 +16,10 @@ package cajero;
  * */
 public interface Cuenta{
 	//Consultores
-	public int getNumCuenta();
-	public long getSaldo();
+	public long getNumCuenta();
+	public double getSaldo();
 	//modificadores
-	public void setSaldo(long saldo);
+	public void setSaldo(double saldo);
 	
 	 /*
 	   * Estudio de la interfaz de CogerUltimaID
@@ -35,7 +35,7 @@ public interface Cuenta{
 	   * Poscondiciones:
 	   * */
 	  
-	public int CogerUltimaID();
+	public long CogerUltimaID();
 	
 	
 	  /*
@@ -52,6 +52,6 @@ public interface Cuenta{
 	   * Postcondiciones:nada
 	   * 
 	   * */	
-	public void escribirUltimaID(int id);
+	public void escribirUltimaID(long id);
 	
 }

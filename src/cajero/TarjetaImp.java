@@ -1,13 +1,10 @@
 package cajero;
 
-import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -20,23 +17,20 @@ public class TarjetaImp implements Tarjeta {
 	 * */
 	//basicas
 	private char tipo;
-	private int numtarjeta;
+	private long numtarjeta;
 	//compartidas
-	public static int contadortarjeta=0;
+	public static long contadortarjeta=0;
 	
 	//constructores
 	public TarjetaImp(){
 		if(contadortarjeta!=0){
-			numtarjeta=contadortarjeta++;
-			
-			
+			numtarjeta=contadortarjeta++;	
 		}
 		else{ 
 			numtarjeta=this.CogerUltimaID()+1;
-			this.escribirUltimaID(numtarjeta);
-			
 		}
-		
+		contadortarjeta=numtarjeta;
+		this.escribirUltimaID(numtarjeta);
 		tipo=' ';
 	}
 	
@@ -50,6 +44,7 @@ public class TarjetaImp implements Tarjeta {
 				numtarjeta=this.CogerUltimaID()+1;
 				
 			}
+			contadortarjeta++;
 			this.escribirUltimaID(numtarjeta);
 			this.tipo=tipo;
 		}
@@ -60,7 +55,7 @@ public class TarjetaImp implements Tarjeta {
 		this.numtarjeta=tp.numtarjeta;
 	}
 	
-	
+	/*Consultores*/
 	@Override
 	public char getTipo() {
 		return tipo;
@@ -80,7 +75,7 @@ public class TarjetaImp implements Tarjeta {
 
 
 	@Override
-	public int getNumtarjeta() {
+	public long getNumtarjeta() {
 		return numtarjeta;
 	}
 
@@ -103,10 +98,10 @@ public class TarjetaImp implements Tarjeta {
 
 		@Override
 
-		public int CogerUltimaID()
+		public long CogerUltimaID()
 		{
 			//variables 
-			int id=0;
+			long id=0;
 			
 			File f=null;
 			FileInputStream fis=null;
@@ -123,10 +118,10 @@ public class TarjetaImp implements Tarjeta {
 	  					fis=new FileInputStream(f);
 	  				
 	  					ois=new ObjectInputStream (fis);
-	  					int aux=ois.readInt();
+	  					long aux=ois.readLong();
 	  					while(aux!=-1){
 	  						id=aux;
-	  						aux=ois.readInt();
+	  						aux=ois.readLong();
 	  					}
 	  				
 	  				}catch(FileNotFoundException fnfe){
@@ -177,7 +172,7 @@ public class TarjetaImp implements Tarjeta {
 		   * */	
 
 	@Override
-	public void escribirUltimaID(int id){
+	public void escribirUltimaID(long id){
 		File f=null;
 		FileOutputStream fos=null;
 		ObjectOutputStream oos=null;
@@ -190,7 +185,7 @@ public class TarjetaImp implements Tarjeta {
   			
   			oos=new ObjectOutputStream(fos);
   			
-  			oos.writeInt(id);
+  			oos.writeLong(id);
 	}catch(FileNotFoundException fnfe){
 		System.out.println(fnfe);
 	} catch (IOException ioe) {
@@ -203,47 +198,7 @@ public class TarjetaImp implements Tarjeta {
 		}
 	}
  } 
-	/*
-	   * Estudio de la interfaz de escribirUltimaID
-	   * 
-	   * Comentario: 
-	   * 	El metodo sobreescribir� la Id escrita en el fichero, pero sin cabecera
-	   * Cabecera: 
-	   * 	long CogerUltimaID()
-	   * Precondiciones:Nada
-	   * 	
-	   * Entradas:Nada
-	   * Salidas:un long (ID)
-	   * Postcondiciones:
-	   * 	El long retornara asociado al nombre -> Funcion
-	   * */	
-	
-	public void escribirUltimaIDsinCabecera(int id){
-		File f=null;
-		FileOutputStream fos=null;
-		MiObjectOutputStream oos=null;
-  		
-  		try{
-  			//abro el fichero para leer
-  			f=new File("idtarjeta.dat");
-  			
-  			fos=new	FileOutputStream(f);
-  			
-  			oos=new MiObjectOutputStream(fos);
-  			
-  			oos.writeInt(id);
-	}catch(FileNotFoundException fnfe){
-		System.out.println(fnfe);
-	} catch (IOException ioe) {
-		System.out.println(ioe);
-	}finally{
-		try {
-			oos.close();
-		} catch (IOException ioe) {
-			System.out.println(ioe);
-		}
-	}
- }
+
 	
 	
 	

@@ -1,15 +1,10 @@
 package cajero;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -49,24 +44,25 @@ public class CuentaImp implements  Cuenta, Serializable {
 	private static final long serialVersionUID = 1183469131124915878L;
 
 	//ATRIBUTOS
-	private int numCuenta;
-	private long saldo;
+	private long numCuenta;
+	private double saldo;
 	private Vector<TarjetaImp> tarjetas;
 	
 
 	
 	//PropiedadesCompartidas
-	public static int contador=0;
+	public static long contadorCuentas=0;
 	
 	//constructores
 	public CuentaImp(){
 		saldo=0;
 		
-		if(contador!=0){numCuenta=contador++;}
+		if(contadorCuentas!=0){numCuenta=contadorCuentas++; } 
 		else{ 
 			numCuenta=this.CogerUltimaID()+1;
 			
 		}
+		contadorCuentas=numCuenta;
 		this.escribirUltimaID(numCuenta);
 		tarjetas=null;
 		
@@ -76,10 +72,12 @@ public class CuentaImp implements  Cuenta, Serializable {
 		
 	
 			this.saldo=saldo;
-			if(contador!=0)numCuenta=contador++;
+			if(contadorCuentas!=0)numCuenta=contadorCuentas++;
 			else numCuenta=this.CogerUltimaID()+1;
-			
+			contadorCuentas++;
 			this.escribirUltimaID(numCuenta);
+			
+			
 			tarjetas=new Vector<TarjetaImp>(0,1);
 		
 
@@ -87,15 +85,15 @@ public class CuentaImp implements  Cuenta, Serializable {
 	
 	//Consultores
 
-	public int getNumCuenta(){
+	public long getNumCuenta(){
 		return(this.numCuenta);
 	}
-	public long getSaldo(){
+	public double getSaldo(){
 		return(this.saldo);
 	}
 	//modificadores
 	
-	public void setSaldo(long saldo){
+	public void setSaldo(double saldo){
 		this.saldo=saldo; 
 		
 	}
@@ -188,10 +186,9 @@ public class CuentaImp implements  Cuenta, Serializable {
 	   * 	El long retornara asociado al nombre -> Funcion
 	   * */
 	  
-		public int CogerUltimaID()
+		public long CogerUltimaID()
 		{
-			//variables 
-			int id=0;
+			long id=0;
 			
 			File f=null;
 			FileInputStream fis=null;
@@ -208,7 +205,7 @@ public class CuentaImp implements  Cuenta, Serializable {
 	  					fis=new FileInputStream(f);
 	  				
 	  					ois=new ObjectInputStream (fis);
-	  					int aux=ois.readInt();
+	  					long aux=ois.readLong();
 	  					while(aux!=-1){
 	  						id=aux;
 	  						aux=ois.readInt();
@@ -261,7 +258,7 @@ public class CuentaImp implements  Cuenta, Serializable {
 		   * 	El long retornara asociado al nombre -> Funcion
 		   * */	
 		
-	public void escribirUltimaID(int id){
+	public void escribirUltimaID(long id){
 		File f=null;
 		FileOutputStream fos=null;
 		ObjectOutputStream oos=null;
@@ -272,7 +269,7 @@ public class CuentaImp implements  Cuenta, Serializable {
   			fos=new	FileOutputStream(f);
   			oos=new ObjectOutputStream(fos);
   			
-  			oos.writeInt(id);
+  			oos.writeLong(id);
 	}catch(FileNotFoundException fnfe){
 		System.out.println(fnfe);
 	} catch (IOException ioe) {

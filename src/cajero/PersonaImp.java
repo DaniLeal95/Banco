@@ -18,6 +18,7 @@ public class PersonaImp implements Persona {
 	private int edad;
 	private String dni;
 	private char sexo;
+	
 
 	
 	/*Constructores*/

@@ -1,11 +1,12 @@
 package cajero;
 
-public interface Cliente {
+public interface Cliente extends Persona {
 /*
  * Propiedades :
  * 		Basicas:
  * 		-------
- * 			IdTarjeta - entero , consultable
+ * 			Idcuenta - entero , consultable
+ * 			Cuentas - vector<CuentaImp>  , consultable y modificable
  * 		
  * 		Derivadas:
  * 		---------
