@@ -12,22 +12,18 @@ import java.util.Vector;
 
 /*
  * Restricciones:
- * 		-Prestigio:
- * 		-----------
- * 			
- * 			Solo puede ser:  -> EXCELENTE (Son los clientes que tienen la media de sus cuentas con un saldo superior a 30.000 € )
- * 							 -> BUENO (Son los clientes que tienen la media de sus cuentas con un saldo entre 10.000€ y 29.999€)
- * 							 -> NORMAL (Son los clientes que tienen la media de sus cuentas con un saldo entre 3.000€ y 9.999€)
- * 							 -> REGULAR (Son los clientes que tienen la media de sus cuentas con un saldo entre 0€ y 2.999€)
- * 							 -> MALO (Son los clientes que tienen la media de sus cuenta con un saldo inferior a 0€)
- * 							o
- * 							 -> null Es cuando No tiene aun una cuenta asignada 
+ * 		Nada
+ * Metodos a�adidos:
+ * 		public long cogerUltimaId()
+ * 		public void escribirUltimaId(long id)
+ * 		
+ * 			 
  * 
  * 
  * 
  * */
 
-public class ClienteImp extends PersonaImp implements Cliente{
+public class ClienteImp extends PersonaImp implements Cliente,Comparable<ClienteImp>,Cloneable{
 	/*-----------------------*/
 	/*Atributos b�sicos*/
 	private long idCliente;
@@ -116,14 +112,7 @@ public class ClienteImp extends PersonaImp implements Cliente{
 	
 	
 	/*Metodos a�adidos*/
-	
-	public String calcularPrestigio(){
-		String prestigio=null;
-		
-		
-		
-		return prestigio;
-	}
+
 	
 	
 	public long cogerUltimaId(){
@@ -196,5 +185,59 @@ public class ClienteImp extends PersonaImp implements Cliente{
 		}
 		return "Nombre cliente: "+getNombre()+", IdCliente: " + idCliente + "\ncuentas:" + cuenta + "\n observaciones: " + observaciones + "\n\n--------------------------------";
 	}
+
+	
+	/*
+	 * CompareTo
+	 * Breve comentario:
+	 * 	 Este metodo recibe y se compara con un objeto ClienteImp,
+	 * 		se comparara por el id del Cliente.
+	 * 			Si el idCliente propio es mayor al que recibe entonces retornara 1
+	 * 			Si el idCliente propio es menor al que recibe entonces retornara -1
+	 * 			en otro caso retornara 0.
+	 * Cabecera:
+	 * 		int compareTo(ClienteImp c)
+	 * Precondiciones;
+	 * 		nada
+	 * Entradas:
+	 * 		Un objeto ClienteImp
+	 * Salidas:
+	 * 		un entero
+	 * Postcondiciones;
+	 * 		el entero retornara asociado al nombre -> Funcion.
+	 * 															
+	 * 		
+	 * */
+	@Override
+	public int compareTo(ClienteImp c) {
+		int comparado=0;
+		if(this.idCliente>c.getIdCliente()){
+			comparado=1;
+		}
+		else if (this.idCliente<c.getIdCliente()){
+			comparado=-1;
+		}
+		return comparado;
+	}
+	
+	/*
+	 * 
+	 * */
+	@Override
+	public ClienteImp clone(){
+		ClienteImp copia=null;
+		//copia=(ClienteImp) super().clone();
+		try
+		{
+			copia = (ClienteImp) super.clone();
+		}
+		catch (CloneNotSupportedException error)
+		{
+			System.out.println("Objeto no clonado");
+		}
+		return copia;
+	}
+	
+	
 }
 
