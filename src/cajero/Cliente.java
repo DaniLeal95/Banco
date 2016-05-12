@@ -5,18 +5,17 @@ public interface Cliente extends Persona {
  * Propiedades :
  * 		Basicas:
  * 		-------
- * 			Idcuenta - entero , consultable
+ * 			Idcuenta - entero largo , consultable
  * 			Cuentas - vector<CuentaImp>  , consultable y modificable
  * 		
  * 		Derivadas:
  * 		---------
  * 			Calculadas:
  * 			-----------
- * 				Prestigio - caracter , consultable y modificable
- * 		 	
+ * 				Prestigio - cadena , consultable
  * 			Compartida:
  * 			-----------
- * 				contadorCliente - entero
+ * 				contadorCliente - entero largo
  * 
  * 
  * */

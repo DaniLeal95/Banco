@@ -57,14 +57,14 @@ public class CuentaImp implements  Cuenta, Serializable {
 	public CuentaImp(){
 		saldo=0;
 		
-		if(contadorCuentas!=0){numCuenta=contadorCuentas++; } 
+		if(contadorCuentas!=0){numCuenta=contadorCuentas+1; } 
 		else{ 
 			numCuenta=this.CogerUltimaID()+1;
 			
 		}
 		contadorCuentas=numCuenta;
 		this.escribirUltimaID(numCuenta);
-		tarjetas=null;
+		tarjetas=new Vector<TarjetaImp>(0,1);
 		
 	}
 	
@@ -72,7 +72,7 @@ public class CuentaImp implements  Cuenta, Serializable {
 		
 	
 			this.saldo=saldo;
-			if(contadorCuentas!=0)numCuenta=contadorCuentas++;
+			if(contadorCuentas!=0)numCuenta=contadorCuentas+1;
 			else numCuenta=this.CogerUltimaID()+1;
 			contadorCuentas++;
 			this.escribirUltimaID(numCuenta);
@@ -285,7 +285,11 @@ public class CuentaImp implements  Cuenta, Serializable {
 
 	@Override
 	public String toString() {
-		return "[numCuenta=" + numCuenta + ", saldo=" + saldo + ", tarjetas=" + tarjetas + "]";
+		String tarjeta="";
+		for(int i=0;i<tarjetas.size();i++){
+			tarjeta=tarjeta.concat("\n\t\t"+tarjetas.elementAt(i).toString());
+		}
+		return "\n\tNumCuenta: " + numCuenta + ", saldo: " + saldo + "€, \n\t\ttarjetas: " + tarjeta + "";
 	}
 
 

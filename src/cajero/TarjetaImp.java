@@ -39,12 +39,14 @@ public class TarjetaImp implements Tarjeta {
 			throw new TarjetaExcepcion("Solo puede ser de Credito o de Debito");
 		}
 		else{
-			if(contadortarjeta!=0){numtarjeta=contadortarjeta++;}
+			if(contadortarjeta!=0){
+				numtarjeta=contadortarjeta+1;
+				}
 			else{ 
 				numtarjeta=this.CogerUltimaID()+1;
 				
 			}
-			contadortarjeta++;
+			contadortarjeta=numtarjeta;
 			this.escribirUltimaID(numtarjeta);
 			this.tipo=tipo;
 		}
@@ -245,10 +247,11 @@ public class TarjetaImp implements Tarjeta {
 
 	@Override
 	public String toString() {
-		String tip;
+		String tip="Debito";
 		if(tipo=='C')tip="Credito";	//esto simplemente es estetico, 
-		else tip="Debito";			//para que en vez que en el toString muestre un char nos muestre una cadena 
-		return "[tipo=" + tip + ", numtarjeta=" + (numtarjeta) + "]";
+					//para que en vez que en el toString muestre un char nos muestre una cadena
+		
+		return "Numtarjeta: " + (numtarjeta) +", tipo: " + tip ;
 	}
 
 	

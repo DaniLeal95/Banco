@@ -6,11 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.Vector;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 /*
  * Restricciones:
@@ -31,13 +29,12 @@ import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class ClienteImp extends PersonaImp implements Cliente{
 	/*-----------------------*/
-	/*Atributos básicos*/
+	/*Atributos bï¿½sicos*/
 	private long idCliente;
-	private Vector<CuentaImp> Cuentas;
+	private Vector<CuentaImp> cuentas;
 	
 	
-	/*Atributos calculados*/
-	private String prestigio;
+	private String observaciones;
 
 	
 	/*Atributos Compartidos*/
@@ -48,25 +45,41 @@ public class ClienteImp extends PersonaImp implements Cliente{
 	public ClienteImp(){
 		super();
 		/*Estas 4 lineas son para obtener el idCliente*/
-		if(contadorclientes!=0){idCliente=contadorclientes;}
+		if(contadorclientes!=0){idCliente=contadorclientes+1;}
 		else{idCliente=this.cogerUltimaId()+1;}
 		contadorclientes=idCliente;
 		this.escribirUltimaId(idCliente);
 		/*-------------------------------------------*/
-		this.Cuentas=null;
-		this.prestigio=null;
+		this.cuentas=new Vector<CuentaImp>(0,1);
+		this.observaciones=null;
 	}
 	
 	public ClienteImp(String nombre,int edad,String dni,char sexo) throws ExcepcionPersona{
 		super(nombre,edad,dni,sexo);
 		/*Estas 4 lineas son para obtener el idCliente*/
-		if(contadorclientes!=0){idCliente=contadorclientes;}
+		if(contadorclientes!=0){idCliente=contadorclientes+1;}
 		else{idCliente=this.cogerUltimaId()+1;}
-		contadorclientes++;
+		contadorclientes=idCliente;
 		this.escribirUltimaId(idCliente);
 		/*-------------------------------------------*/
-		this.Cuentas=null;
-		this.prestigio=null;
+		this.cuentas=new Vector<CuentaImp>(0,1);
+		this.observaciones=null;
+	}
+	
+	public ClienteImp(String nombre,int edad,String dni,char sexo,String observaciones) throws ExcepcionPersona{
+		super(nombre,edad,dni,sexo);
+		/*Estas 4 lineas son para obtener el idCliente*/
+		if(contadorclientes!=0){
+			idCliente=contadorclientes+1;
+			}
+		else{
+			idCliente=this.cogerUltimaId()+1;
+			}
+		contadorclientes=idCliente;
+		this.escribirUltimaId(idCliente);
+		/*-------------------------------------------*/
+		this.cuentas=new Vector<CuentaImp>(0,1);
+		this.observaciones=observaciones;
 	}
 	
 	/*----------------*/
@@ -75,7 +88,44 @@ public class ClienteImp extends PersonaImp implements Cliente{
 	 **Consultores**
 	 ***************/
 	
-	/*Metodos añadidos*/
+	public long getIdCliente(){
+		return this.idCliente;
+	}
+	
+	public String getObservaciones(){
+		return this.observaciones;
+	}
+	
+	public Vector<CuentaImp> getCuentas(){
+		return this.cuentas;
+	}
+	
+	/*---------------
+	 * Modificadores-
+	 * --------------
+	 * */
+	
+	public void addCuenta(CuentaImp c){
+		this.cuentas.add(c);
+	}
+	
+	public void setObservaciones(String observaciones){
+		this.observaciones=observaciones;
+	}
+	
+	
+	
+	/*Metodos aï¿½adidos*/
+	
+	public String calcularPrestigio(){
+		String prestigio=null;
+		
+		
+		
+		return prestigio;
+	}
+	
+	
 	public long cogerUltimaId(){
 		long id=0;
 		File f=new File("idclientes.dat");
@@ -127,8 +177,24 @@ public class ClienteImp extends PersonaImp implements Cliente{
 			oos.writeLong(id);
 		}catch(IOException ioe){
 			System.out.println(ioe);
+		}finally{
+			try{
+				oos.close();
+			}catch(IOException ioe){
+				System.out.println(ioe);
+			}
 		}
+		
 	}
 	/*----------------*/
+
+	@Override
+	public String toString() {
+		String cuenta="";
+		for(int i=0;i<cuentas.size();i++){
+			cuenta=cuenta.concat(cuentas.elementAt(i).toString())+"\n";
+		}
+		return "Nombre cliente: "+getNombre()+", IdCliente: " + idCliente + "\ncuentas:" + cuenta + "\n observaciones: " + observaciones + "\n\n--------------------------------";
+	}
 }
 

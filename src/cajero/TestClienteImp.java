@@ -1,9 +1,8 @@
 package cajero;
 
-public class TestCuentaImp {
+public class TestClienteImp {
 
 	public static void main(String[] args) {
-		
 		try {
 			TarjetaImp t1=new TarjetaImp('D');
 			TarjetaImp t2=new TarjetaImp('C');
@@ -18,13 +17,19 @@ public class TestCuentaImp {
 			c2.setTarjeta(t4);
 			
 			
-			System.out.println(c1.toString());
-			System.out.println(c2.toString());
-		
+			ClienteImp cl1=new ClienteImp("Daniel Leal",20,"53284930W",'H',"Este tio es el amo");
+			ClienteImp cl2=new ClienteImp("Estefania Lucrecia",25,"53224930W",'M',"Pues... yo le daba");
+			
+			cl1.addCuenta(c2);
+			cl2.addCuenta(c1);
+			
+			System.out.println(cl1.toString());
+			System.out.println(cl2.toString());
 		} catch (TarjetaExcepcion te) {
 			System.out.println(te);
+		} catch (ExcepcionPersona ep) {
+			System.out.println(ep);
 		}
-		
 	}
 
 }
