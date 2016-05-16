@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import datos.CuentaImp;
+
 public class GestionFicheros {
 	/*
 	 * Metodo mostrarFichero

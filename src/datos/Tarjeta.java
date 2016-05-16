@@ -1,4 +1,6 @@
-package cajero;
+package datos;
+
+import cajero.TarjetaExcepcion;
 
 public interface Tarjeta {
 
@@ -37,7 +39,7 @@ public interface Tarjeta {
 	 * Estudio de la interfaz de escribirUltimaID
 	 * 
 	 * Comentario: 
-	 * 	El metodo sobreescribirá la Id escrita en el fichero
+	 * 	El metodo sobreescribirï¿½ la Id escrita en el fichero
 	 * Cabecera: 
 	 * 	long CogerUltimaID()
 	 * Precondiciones:Nada

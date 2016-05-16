@@ -1,4 +1,4 @@
-package cajero;
+package datos;
 
 public interface Cliente extends Persona {
 /*

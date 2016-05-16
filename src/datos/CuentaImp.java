@@ -1,4 +1,4 @@
-package cajero;
+package datos;
 
 import java.io.EOFException;
 import java.io.File;
@@ -282,6 +282,39 @@ public class CuentaImp implements  Cuenta, Serializable {
 		}
 	}
  }
+	
+	
+	/*getPrestigio
+	 * 
+	 * Breve comentario:
+	 * 		-Este metodo hará la media de todos los saldos de sus cuentas
+	 * 		y retornara un prestigio segun la media:
+	 * 				-Media mayor 20.000€ -> Buena
+	 * 				-Media entre 0€ y 19.999€ -> Normal
+	 * 				-Media menor a 0€ -> Mala
+	 * 				-Si no tiene Cuentas -> NULL
+	 * 	Cabecera: 
+	 * 		String getPrestigio()
+	 * 	Precondiciones:
+	 * 		Nada 	
+	 * 	Entradas:
+	 * 		Nada
+	 * 	Salidas:
+	 * 		Un  Prestigio (String)
+	 * 	Postcondiciones:
+	 * 		El prestigio retornara asociado al nombre -> Funcion
+	 *  
+	 * 
+	 * */
+	
+	public String getPrestigio(){
+		String prestigio=null;
+			
+		
+		return prestigio;
+	}
+	
+	/*HEREDADAS DE OBJECT*/
 
 	@Override
 	public String toString() {
@@ -291,6 +324,9 @@ public class CuentaImp implements  Cuenta, Serializable {
 		}
 		return "\n\tNumCuenta: " + numCuenta + ", saldo: " + saldo + "€, \n\t\ttarjetas: " + tarjeta + "";
 	}
+	
+	
+	
 
 
 

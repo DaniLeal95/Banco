@@ -1,4 +1,7 @@
-package cajero;
+package test;
+
+import cajero.GestionFicherosCuenta;
+import datos.CuentaImp;
 
 public class TestGestionFicheros {
 

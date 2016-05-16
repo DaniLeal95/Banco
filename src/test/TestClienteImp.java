@@ -1,4 +1,10 @@
-package cajero;
+package test;
+
+import cajero.ExcepcionPersona;
+import cajero.TarjetaExcepcion;
+import datos.ClienteImp;
+import datos.CuentaImp;
+import datos.TarjetaImp;
 
 public class TestClienteImp {
 

@@ -1,4 +1,4 @@
-package cajero;
+package datos;
 
 import java.io.EOFException;
 import java.io.File;
@@ -7,13 +7,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.GregorianCalendar;
 import java.util.Vector;
+
+import cajero.ExcepcionPersona;
 
 
 /*
  * Restricciones:
  * 		Nada
- * Metodos a�adidos:
+ * Metodos a�adidos:
  * 		public long cogerUltimaId()
  * 		public void escribirUltimaId(long id)
  * 		
@@ -23,9 +26,10 @@ import java.util.Vector;
  * 
  * */
 
-public class ClienteImp extends PersonaImp implements Cliente,Comparable<ClienteImp>,Cloneable{
+public class ClienteImp extends PersonaImpl implements Cliente,Cloneable{
 	/*-----------------------*/
 	/*Atributos b�sicos*/
+	private static final long serialVersionUID = 1183469131124915878L;
 	private long idCliente;
 	private Vector<CuentaImp> cuentas;
 	
@@ -50,8 +54,8 @@ public class ClienteImp extends PersonaImp implements Cliente,Comparable<Cliente
 		this.observaciones=null;
 	}
 	
-	public ClienteImp(String nombre,int edad,String dni,char sexo) throws ExcepcionPersona{
-		super(nombre,edad,dni,sexo);
+	public ClienteImp(String nombre,String apellido1,String apellido2,GregorianCalendar fnacimiento,String dni,char genero) throws ExcepcionPersona{
+		super(nombre,apellido1,apellido2,fnacimiento,dni,genero);
 		/*Estas 4 lineas son para obtener el idCliente*/
 		if(contadorclientes!=0){idCliente=contadorclientes+1;}
 		else{idCliente=this.cogerUltimaId()+1;}
@@ -62,8 +66,8 @@ public class ClienteImp extends PersonaImp implements Cliente,Comparable<Cliente
 		this.observaciones=null;
 	}
 	
-	public ClienteImp(String nombre,int edad,String dni,char sexo,String observaciones) throws ExcepcionPersona{
-		super(nombre,edad,dni,sexo);
+	public ClienteImp(String nombre,String apellido1,String apellido2,GregorianCalendar fnacimiento,String dni,char genero,String observaciones) throws ExcepcionPersona{
+		super(nombre,apellido1,apellido2,fnacimiento,dni,genero);
 		/*Estas 4 lineas son para obtener el idCliente*/
 		if(contadorclientes!=0){
 			idCliente=contadorclientes+1;
@@ -175,6 +179,54 @@ public class ClienteImp extends PersonaImp implements Cliente,Comparable<Cliente
 		}
 		
 	}
+	
+	
+	/*getPrestigio
+	 * 
+	 * Breve comentario:
+	 * 		-Este metodo hará la media de todos los saldos de sus cuentas
+	 * 		y retornara un prestigio segun la media:
+	 * 				-Media mayor 20.000€ -> Buena
+	 * 				-Media entre 0€ y 19.999€ -> Normal
+	 * 				-Media menor a 0€ -> Mala
+	 * 				-Si no tiene Cuentas -> NULL
+	 * 	Cabecera: 
+	 * 		String getPrestigio()
+	 * 	Precondiciones:
+	 * 		Nada 	
+	 * 	Entradas:
+	 * 		Nada
+	 * 	Salidas:
+	 * 		Un  Prestigio (String)
+	 * 	Postcondiciones:
+	 * 		El prestigio retornara asociado al nombre -> Funcion
+	 *  
+	 * 
+	 * */
+	
+	public String getPrestigio(){
+		String prestigio=null;
+		double totalCuenta=0;
+			for(int i=0;i<this.cuentas.size();i++){
+				totalCuenta=totalCuenta+this.cuentas.elementAt(i).getSaldo();
+			}
+			double media=totalCuenta/this.cuentas.size();
+			
+			
+			if(media<0.0){
+				prestigio="Mala";
+			}
+			else if(media>=20000.0){
+				prestigio="Buena";
+			}
+			else if(media>0.0 && media<20000.0){
+				prestigio="Normal";
+			}
+		
+		return prestigio;
+	}
+	
+	
 	/*----------------*/
 
 	@Override
@@ -208,7 +260,6 @@ public class ClienteImp extends PersonaImp implements Cliente,Comparable<Cliente
 	 * 															
 	 * 		
 	 * */
-	@Override
 	public int compareTo(ClienteImp c) {
 		int comparado=0;
 		if(this.idCliente>c.getIdCliente()){
@@ -226,17 +277,11 @@ public class ClienteImp extends PersonaImp implements Cliente,Comparable<Cliente
 	@Override
 	public ClienteImp clone(){
 		ClienteImp copia=null;
-		//copia=(ClienteImp) super().clone();
-		try
-		{
-			copia = (ClienteImp) super.clone();
-		}
-		catch (CloneNotSupportedException error)
-		{
-			System.out.println("Objeto no clonado");
-		}
+		copia = (ClienteImp) super.clone();
 		return copia;
 	}
+	
+
 	
 	
 }

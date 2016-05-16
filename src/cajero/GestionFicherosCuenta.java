@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import datos.Cuenta;
+import datos.CuentaImp;
+
 public class GestionFicherosCuenta {
 	/*
 	 * Metodo mostrarFichero

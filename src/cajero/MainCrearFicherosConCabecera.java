@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import datos.CuentaImp;
+
 public class MainCrearFicherosConCabecera {
 
 	public static void main(String[] args) {

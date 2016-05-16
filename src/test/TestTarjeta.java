@@ -1,4 +1,7 @@
-package cajero;
+package test;
+
+import cajero.TarjetaExcepcion;
+import datos.TarjetaImp;
 
 public class TestTarjeta {
 	public static void main(String args[]){
