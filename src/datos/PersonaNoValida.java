@@ -1,4 +1,4 @@
-package clasePersona;
+package datos;
 
 
 public class PersonaNoValida extends Exception

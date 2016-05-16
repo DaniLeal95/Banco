@@ -22,7 +22,7 @@ public class TestClienteImp {
 			c2.setTarjeta(t2);
 			c2.setTarjeta(t4);
 			
-			
+			/*
 			ClienteImp cl1=new ClienteImp("Daniel Leal",20,"53284930W",'H',"Este tio es el amo");
 			ClienteImp cl2=new ClienteImp("Estefania Lucrecia",25,"53224930W",'M',"Pues... yo le daba");
 			
@@ -31,11 +31,12 @@ public class TestClienteImp {
 			
 			System.out.println(cl1.toString());
 			System.out.println(cl2.toString());
+			*/
 		} catch (TarjetaExcepcion te) {
 			System.out.println(te);
-		} catch (ExcepcionPersona ep) {
+		}/* catch (ExcepcionPersona ep) {
 			System.out.println(ep);
-		}
+		}*/
 	}
 
 }
