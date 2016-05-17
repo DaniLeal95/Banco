@@ -9,7 +9,7 @@ public class TestGestionFicheros {
 		
 		
 		
-		gf.mostrarFichero("ClientesMaestro.dat");
+		System.out.println(gf.mostrarFichero());
 	}
 
 }

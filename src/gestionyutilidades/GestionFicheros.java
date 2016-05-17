@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.util.Vector;
 
 import cajero.MiObjectOutputStream;
 import datos.ClienteImp;
@@ -16,32 +16,36 @@ public class GestionFicheros {
 	/*
 	 * Metodo mostrarFichero
 	 * 	Breve Comentario:
-	 * 		Este metodo pinta en pantalla todos los clientes que tenemos registrados en el fichero.
+	 * 		Este metodo retornara todos los clientes que tenemos registrados en el fichero, en un vector de ClienteImp
 	 * 	Cabecera:
-	 * 		void mostrarFichero(String fichero)
+	 * 		Vector<ClienteImp> mostrarFichero()
 	 * 	Precondiciones:
 	 * 		Nada
 	 * 	Entradas:
 	 * 		El nombre del fichero
 	 * 	Salidas:
-	 * 		Nada solo pinta en pantalla
+	 * 		Un vector de clientes
 	 * 	Postcondiciones
-	 * 		Nada  
+	 * 		El metodo retornara un Vector de clienteImp con todos los clientes que tenga el fichero, 
+	 * 		asociado al nombre , funciion   
 	 * 
 	 * */
-	public void mostrarFichero(String fichero){
+	public Vector<ClienteImp> mostrarFichero(){
 		File f=null;
 		FileInputStream fis=null;
 		ObjectInputStream ois=null;
+		Vector<ClienteImp> clientes=new Vector<>(0,1);
 		try{
-			f=new File(fichero);
+			f=new File("ClientesMaestro.dat");
 			fis=new FileInputStream(f);
 			ois=new ObjectInputStream(fis);
 			
 			Object cliente=(ClienteImp)ois.readObject();
 			while(cliente!=null){
-			System.out.println(cliente.toString());
+			clientes.addElement((ClienteImp) cliente);	
+				
 			cliente=(ClienteImp)ois.readObject();
+			
 			}
 		}catch(FileNotFoundException fnfe){
 			System.out.println("Fichero no encontrado");
@@ -52,6 +56,8 @@ public class GestionFicheros {
 		} catch (ClassNotFoundException cnfe) {
 			System.out.println(cnfe);
 		}
+		
+		return clientes;
 	}
 	
 	
@@ -60,7 +66,7 @@ public class GestionFicheros {
 	 * 	Breve comentario:
 	 * 		El metodo escribirá en el fichero cuyo nombre y objeto clienteImp recibirá por parametros 
 	 * 	Cabecera:
-	 * 		void escribirCliente(String nombrefichero,ClienteImp cliente)
+	 * 		void escribirCliente(ClienteImp cliente)
 	 * 	Precondiciones:
 	 * 		El fichero debe estar creado
 	 * 	Entradas:
@@ -70,13 +76,13 @@ public class GestionFicheros {
 	 * 	Postcondiciones:
 	 * 		Escribirá el objeto en el fichero.
 	 * */
-	public void escribirCliente(String nombrefichero, ClienteImp cliente){
+	public void escribirCliente(ClienteImp cliente){
 		
 		File f=null;
 		FileOutputStream fos=null;
 		MiObjectOutputStream oos=null;
 		try{
-			f=new File(nombrefichero);
+			f=new File("ClientesMaestro.dat");
 			fos=new FileOutputStream(f,true);
 			oos=new MiObjectOutputStream(fos);
 			

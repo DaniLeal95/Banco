@@ -322,7 +322,7 @@ public class CuentaImp implements  Cuenta, Serializable {
 		for(int i=0;i<tarjetas.size();i++){
 			tarjeta=tarjeta.concat("\n\t\t"+tarjetas.elementAt(i).toString());
 		}
-		return "\n\tNumCuenta: " + numCuenta + ", saldo: " + saldo + "€, \n\t\ttarjetas: " + tarjeta + "";
+		return "\n\tNumCuenta: " + numCuenta + ", saldo: " + saldo + "euros, \n\t\ttarjetas: " + tarjeta + "";
 	}
 	
 	

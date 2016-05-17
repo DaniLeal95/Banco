@@ -42,8 +42,8 @@ public class TestClienteImp {
 			System.out.println(cl1.toString());
 			System.out.println(cl2.toString());
 			
-			gf.escribirCliente("ClientesMaestro.dat", cl1);
-			gf.escribirCliente("ClientesMaestro.dat", cl2);
+			gf.escribirCliente(cl1);
+			gf.escribirCliente( cl2);
 			
 			
 		} catch (TarjetaExcepcion te) {
