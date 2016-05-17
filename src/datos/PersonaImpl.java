@@ -32,6 +32,10 @@ public class PersonaImpl implements Persona, Serializable, Cloneable,Comparable<
 	//Atributos
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4007293735854407963L;
 	private String nombre;
 	private String apellido1;
 	private String apellido2;

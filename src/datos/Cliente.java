@@ -1,6 +1,6 @@
 package datos;
 
-public interface Cliente extends Persona {
+public interface Cliente {
 /*
  * Propiedades :
  * 		Basicas:

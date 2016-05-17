@@ -1,22 +1,15 @@
 package test;
 
-import cajero.GestionFicherosCuenta;
-import datos.CuentaImp;
+import gestionyutilidades.GestionFicheros;
 
 public class TestGestionFicheros {
 
 	public static void main(String[] args) {
-		GestionFicherosCuenta gf=new GestionFicherosCuenta();
-
-		CuentaImp c2 = new CuentaImp(500);
-		CuentaImp c3=new CuentaImp(700);
-		CuentaImp c4=new CuentaImp(900);
+		GestionFicheros gf=new GestionFicheros();
 		
-		gf.escribirMaestro(c2);
-		gf.escribirMaestro(c3);
-		gf.escribirMaestro(c4);
 		
-		gf.mostrarFichero();
+		
+		gf.mostrarFichero("ClientesMaestro.dat");
 	}
 
 }

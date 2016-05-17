@@ -8,10 +8,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import cajero.TarjetaExcepcion;
 
-public class TarjetaImp implements Tarjeta {
+public class TarjetaImp implements Tarjeta,Serializable {
+	
+	private static final long serialVersionUID = -2452366085707864944L;
 	/* 
 	 * Clase Implementada de Tarjeta 
 	 * 	Propiedades
