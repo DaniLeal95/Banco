@@ -83,6 +83,13 @@ public class CuentaImp implements  Cuenta, Serializable {
 
 	}
 	
+	
+	public CuentaImp(CuentaImp c,double saldo){
+		this.numCuenta=c.numCuenta;
+		this.saldo=saldo;
+		this.tarjetas=c.tarjetas;
+	}
+	
 	//Consultores
 
 	public long getNumCuenta(){

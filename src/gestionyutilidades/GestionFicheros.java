@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Vector;
 
 import cajero.MiObjectOutputStream;
 import datos.ClienteImp;
@@ -16,27 +15,25 @@ import datos.CuentaImp;
 
 public class GestionFicheros {
 	/*
-	 * Metodo mostrarFichero
+	 * Metodo mostrarFicheromaestro
 	 * 	Breve Comentario:
-	 * 		Este metodo retornara todos los clientes que tenemos registrados en el fichero, en un vector de ClienteImp
+	 * 		Este metodo mostrara por pantalla todos los clientes que tenemos registrados en el fichero
+	 * 		
 	 * 	Cabecera:
-	 * 		Vector<ClienteImp> mostrarFichero()
+	 * 		void mostrarFicheromaestro()
 	 * 	Precondiciones:
-	 * 		Nada
+	 * 		el fichero debera estar creado, de no estarlo saltara una excepcion de fichero no encontrado
 	 * 	Entradas:
 	 * 		El nombre del fichero
 	 * 	Salidas:
-	 * 		Un vector de clientes
-	 * 	Postcondiciones
-	 * 		El metodo retornara un Vector de clienteImp con todos los clientes que tenga el fichero, 
-	 * 		asociado al nombre , funciion   
-	 * 
+	 * 		Nada
+	 * 	Postcondiciones:
+	 * 		Nada
 	 * */
-	public Vector<ClienteImp> mostrarFichero(){
+	public void mostrarFicheromaestro(){
 		File f=null;
 		FileInputStream fis=null;
 		ObjectInputStream ois=null;
-		Vector<ClienteImp> clientes=new Vector<>(0,1);
 		try{
 			f=new File("ClientesMaestro.dat");
 			fis=new FileInputStream(f);
@@ -44,8 +41,7 @@ public class GestionFicheros {
 			
 			Object cliente=(ClienteImp)ois.readObject();
 			while(cliente!=null){
-			clientes.addElement((ClienteImp) cliente);	
-				
+			System.out.println(cliente.toString());
 			cliente=(ClienteImp)ois.readObject();
 			
 			}
@@ -59,20 +55,19 @@ public class GestionFicheros {
 			System.out.println(cnfe);
 		}
 		
-		return clientes;
 	}
 	
 	
 	
-	/*Escribir Fichero
+	/*Escribir Fichero ClienteMaestro
 	 * 	Breve comentario:
-	 * 		El metodo escribirá en el fichero cuyo nombre y objeto clienteImp recibirá por parametros 
+	 * 		El metodo escribirá en el fichero ClienteMaestro un objeto clienteImp que recibirá por parametros 
 	 * 	Cabecera:
 	 * 		void escribirCliente(ClienteImp cliente)
 	 * 	Precondiciones:
-	 * 		El fichero debe estar creado
+	 * 		Nada
 	 * 	Entradas:
-	 * 		Una cadena nombre del fichero y un objeto ClienteImp
+	 * 		un objeto ClienteImp
 	 * 	Salidas:
 	 * 		Nada 
 	 * 	Postcondiciones:
@@ -103,6 +98,88 @@ public class GestionFicheros {
 			}
 		}
 	}
+	
+	/*Escribir Fichero ClienteMaestro
+	 * 	Breve comentario:
+	 * 		El metodo escribirá en el fichero ("ClientesMovimiento.dat") un objeto Cuenta que recibirá por parametros 
+	 * 	Cabecera:
+	 * 		void escribirCliente(ClienteImp cliente)
+	 * 	Precondiciones:
+	 * 		Nada
+	 * 	Entradas:
+	 * 		un objeto CuentaImp
+	 * 	Salidas:
+	 * 		Nada 
+	 * 	Postcondiciones:
+	 * 		Escribirá el objeto en el fichero.
+	 * */
+	public void escribirMovimiento(CuentaImp c){
+		
+		File f=null;
+		FileOutputStream fos=null;
+		MiObjectOutputStream moos=null;
+		
+		try{
+			f=new File("ClientesMovimiento.dat");
+			fos=new FileOutputStream(f);
+			moos=new MiObjectOutputStream(fos);
+			
+			moos.writeObject(c);
+		}catch(IOException ioe){
+			System.out.println(ioe);
+		}finally{
+			try{
+				fos.close();
+				moos.close();
+			}catch(IOException ioe){
+				System.out.println(ioe);
+			}
+		}
+		
+	}
+	/*
+	 * Mostrar fichero movimientos
+	 * 	Breve Comentario:
+	 * 		Este metodo mostrara por pantalla todos los movimientos que tenemos registrados en el fichero de movimientos
+	 * 		
+	 * 	Cabecera:
+	 * 		 void mostrarFicheromovimiento()
+	 * 	Precondiciones:
+	 * 		el fichero debera estar creado, de no estarlo saltara una excepcion de fichero no encontrado
+	 * 	Entradas:
+	 * 		Nada
+	 * 	Salidas:
+	 * 		Nada
+	 * 	Postcondiciones:
+	 * 		Nada
+	 * */
+	public void mostrarFicheromovimiento(){
+		File f=null;
+		FileInputStream fis=null;
+		ObjectInputStream ois=null;
+		try{
+			f=new File("ClientesMaestro.dat");
+			fis=new FileInputStream(f);
+			ois=new ObjectInputStream(fis);
+			
+			Object cliente=(ClienteImp)ois.readObject();
+			while(cliente!=null){
+			System.out.println(cliente.toString());
+			cliente=(ClienteImp)ois.readObject();
+			
+			}
+		}catch(FileNotFoundException fnfe){
+			System.out.println("Fichero no encontrado");
+		}catch(EOFException eof){
+			System.out.println("");
+		}	catch (IOException ioe) {
+			System.out.println(ioe);
+		} catch (ClassNotFoundException cnfe) {
+			System.out.println(cnfe);
+		}
+		
+	}
+	
 	
 	/*contarRegistros
 	 * 
@@ -178,79 +255,87 @@ public class GestionFicheros {
  * 
  * */
 
-	public void actualizaClientes(){
+	public void actualizaClientes() {
 		
-		
-		File fmaestro=new File("ClientesMaestro.dat");
-		File fmovimiento=new File("ClientesMovimiento.dat");
-		File fmaestronuevo=new File("ClientesMaestroNuevo.dat");
+		File fmaestro = new File("ClientesMaestro.dat");
+		File fmovimiento = new File("ClientesMovimiento.dat");
+		File fmaestronuevo = new File("ClientesMaestroNuevo.dat");
 		// Para leer maestro
-		FileInputStream fism=null;
-		ObjectInputStream oism=null;
-		FileInputStream fismo=null;
-		ObjectInputStream oismo=null;
-		
+		FileInputStream fism = null;
+		ObjectInputStream oism = null;
+		// Para leer movimientos
+		FileInputStream fismo = null;
+		ObjectInputStream oismo = null;
+
 		// Para escribir
-		FileOutputStream fos=null;
-		ObjectOutputStream oos=null;
+		FileOutputStream fos = null;
+		ObjectOutputStream oos = null;
 		
 		int numregistros;
 
-		
-		if(fmaestro.exists() && fmovimiento.exists()){
-			numregistros=this.contarRegistros("ClientesMaestro.dat");
-			
-			for(int i=0;i<numregistros;i++){
-				try{
-					//Abrimos para leer el archivo maestro
-					fism=new FileInputStream(fmaestro);
-					oism=new ObjectInputStream(fism);
-					//Abrimos para leer el archivo movimiento
-					fismo=new FileInputStream(fmovimiento);
-					oismo=new ObjectInputStream(fismo);
-					 
-					ClienteImp cmaestro=(ClienteImp)oism.readObject();
-					
-					CuentaImp cmovimiento=(CuentaImp) oismo.readObject();
-					while(cmovimiento!=null){
-						
-						for(int z=0;z<cmaestro.getCuentas().size();z++){
-							//Si 
-							if(cmaestro.getCuentas().elementAt(z).getNumCuenta()==cmovimiento.getNumCuenta()){
-								
-								
+		if (fmaestro.exists() && fmovimiento.exists()) {
+			numregistros = this.contarRegistros("ClientesMaestro.dat");
+			try {
+
+				// Abrimos para leer el archivo maestro
+				fism = new FileInputStream(fmaestro);
+				oism = new ObjectInputStream(fism);
+				// Abrimos para leer el archivo movimiento
+				fismo = new FileInputStream(fmovimiento);
+				oismo = new ObjectInputStream(fismo);
+				// Abrimos para escribir en el nuevo archivo maestro
+				fos = new FileOutputStream(fmaestronuevo);
+				oos = new ObjectOutputStream(fos);
+
+				// leemos el primero cliente del fichero maestro
+				ClienteImp cmaestro = (ClienteImp) oism.readObject();
+
+				for (int i = 0; i < numregistros; i++) {
+					// Leemos el primer movimiento
+					CuentaImp cmovimiento = (CuentaImp) oismo.readObject();
+					while (cmovimiento != null) {
+
+						for (int z = 0; z < cmaestro.getCuentas().size(); z++) {
+							// Si el numero de cuenta es el mismo
+							if (cmaestro.getCuentas().elementAt(z).getNumCuenta() == cmovimiento.getNumCuenta()) {
+
+								// le damos al saldo Del Maestro el saldo que
+								// hay en el de movimiento.
 								cmaestro.getCuentas().elementAt(z).setSaldo(cmovimiento.getSaldo());
 							}
-							
-							cmovimiento=(CuentaImp) oismo.readObject();
 						}
+						// Volvemos a leer el siguiente movimiento
+						cmovimiento = (CuentaImp) oismo.readObject();
 					}
-					fos=new FileOutputStream(fmaestronuevo);
-					oos=new ObjectOutputStream(fos);
-					
-					//Escribimos el nuevo clienteMaestro
+
+					// Escribimos el nuevo clienteMaestro
 					oos.writeObject(cmaestro);
+					cmaestro = (ClienteImp) oism.readObject();
+				} // fin Para
 					
-					
-					
-				}catch(IOException ioe){
+				
+				//Ahora eliminamos el antiguo archivo de Maestro
+				fmaestro.delete();
+				//y renombramos el archivo maestro nuevo con el nombre del antiguo
+				fmaestronuevo.renameTo(fmaestro);
+			} catch (IOException ioe) {
+				System.out.println(ioe);
+			} catch (ClassNotFoundException e) {
+				System.out.println(e);
+			} finally {
+				try {
+					fism.close();
+					fismo.close();
+					oism.close();
+					oismo.close();
+					fos.close();
+					oos.close();
+				} catch (IOException ioe) {
 					System.out.println(ioe);
-				} catch (ClassNotFoundException e) {
-					System.out.println(e);
-				}finally{
-					try{
-						fism.close();
-						fismo.close();
-						oism.close();
-						oismo.close();
-					}catch(IOException ioe){
-						System.out.println(ioe);
-					}
 				}
 			}
-			
+
 		}
-		
-		
+
 	}
 }

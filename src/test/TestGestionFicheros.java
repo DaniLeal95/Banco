@@ -1,5 +1,6 @@
 package test;
 
+import datos.CuentaImp;
 import gestionyutilidades.GestionFicheros;
 
 public class TestGestionFicheros {
@@ -9,7 +10,11 @@ public class TestGestionFicheros {
 		
 		
 		
-		System.out.println(gf.mostrarFichero());
+		gf.mostrarFicheromaestro();
+		
+		
+		CuentaImp c1=new CuentaImp();
+		
 	}
 
 }
