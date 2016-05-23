@@ -9,14 +9,17 @@ import java.util.GregorianCalendar;
 import datos.ClienteImp;
 import datos.CuentaImp;
 import datos.TarjetaImp;
+import gestionyutilidades.GestionFicheros;
 
 public class MainCrearFicherosConCabecera {
 
 	public static void main(String[] args) {
 		File f = null;
-
+		File fmov = null;
 		FileOutputStream fos = null;
+		FileOutputStream fosmov=null;
 		ObjectOutputStream oos = null;
+		ObjectOutputStream oosmov=null;
 		
 
 		try {
@@ -25,7 +28,9 @@ public class MainCrearFicherosConCabecera {
 			f = new File("ClientesMaestro.dat");
 			fos = new FileOutputStream(f.getAbsoluteFile());
 			oos = new ObjectOutputStream(fos);
-			
+			fmov=new File("ClientesMovimiento.dat");
+			fosmov= new FileOutputStream(fmov);
+			oosmov= new ObjectOutputStream(fosmov);
 			/*
 			 * Meto Unos cientes
 			 * */
@@ -47,7 +52,10 @@ public class MainCrearFicherosConCabecera {
 			cl1.addCuenta(c2);
 			System.out.println(cl1.toString());
 			
-			//oos.writeObject(cl1);
+			
+			
+			oos.writeObject(cl1);
+			oosmov.writeObject(c2);
 			
 		} catch (IOException ioe) {
 			System.out.println(ioe);

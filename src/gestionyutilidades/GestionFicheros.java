@@ -57,6 +57,113 @@ public class GestionFicheros {
 		
 	}
 	
+	/*
+	 * Obtener cuenta.
+	 * 
+	 * 	Breve comentario:
+	 * 		Este metodo retornara una cuenta , dadas una id de cliente 
+	 * 		y una id de cuenta
+	 * 	Cabecera:
+	 * 		CuentaImp obtenerCuenta(long idCliente,long idCuenta)
+	 * 	Precondiciones:
+	 * 		Nada, si no encuentra ninguna cuenta con esas id retornara null.
+	 * 			
+	 * 	Entradas:
+	 * 		dos long con las ids de cliente y cuenta
+	 * 	Salidas:
+	 * 		Un objeto CuentaImp
+	 * 	Postcondiciones:
+	 * 		El objeto CuentaImp retornara asociado al nombre, funcion
+	 * 
+	 * 
+	 * */
+	public CuentaImp obtenerCuenta(long idCliente,long idCuenta){
+		CuentaImp cuenta=null;
+		
+		File f=null;
+		File fmov=null;
+		FileInputStream fis=null;
+		FileInputStream fismov=null;
+		ObjectInputStream ois=null;
+		ObjectInputStream oismov=null;
+		boolean encontrado=false;
+		ClienteImp aux=null;
+		CuentaImp auxc=null;
+		try{
+			f= new File("ClientesMaestro.dat");
+			fmov=new File("ClientesMovimiento.dat");
+			fis=new FileInputStream(f);
+			fismov=new FileInputStream(fmov);
+			ois=new ObjectInputStream(fis);
+			oismov=new ObjectInputStream(fismov);
+				
+			
+			/*Si el fichero de movimiento no existe, no necesitamos mirar en el.
+			 * Solo tendremos que buscar en el maestro,
+			 * */
+			if(!fmov.exists()){
+			aux=(ClienteImp)ois.readObject();
+				while(aux!=null && encontrado==false){
+					if(aux.getIdCliente()==idCliente){
+						
+						for(int i=0;i<aux.getCuentas().size();i++){
+							
+							if(aux.getCuentas().elementAt(i).getNumCuenta()==idCuenta){
+								cuenta=aux.getCuentas().elementAt(i);
+								encontrado=true;
+							}
+						}
+					}
+					aux=(ClienteImp)ois.readObject();
+				}
+			}
+			/*Si el fichero de movimientos si existe tenemos que mirar en los dos
+			 * ficheros ,primero en el de movimiento y luego si en el de movimiento
+			 *  no lo encuentra mirara en el maestro.
+			 *  Si no el objeto quedara null;
+			 * */
+			else{
+				auxc=(CuentaImp)oismov.readObject();
+				/*Recorro el fichero entero porque puede haber mas de un movimiento
+				 * entonces me interesa mirar todos los clientes ingresados 
+				 * */
+				while(auxc!=null){
+					if(auxc.getNumCuenta()==idCuenta){
+								cuenta=auxc;
+								encontrado=true;
+					}	
+					aux=(ClienteImp)oismov.readObject();
+				}
+				/*Si no se a encontrado el cliente en el de movimientos
+				 * 	miraremos en el maestro
+				 * */
+				
+				if(!encontrado){
+					aux=(ClienteImp)ois.readObject();
+					while(aux!=null && !encontrado){
+						if(aux.getIdCliente()==idCliente){
+							
+							for(int i=0;i<aux.getCuentas().size();i++){
+								
+								if(aux.getCuentas().elementAt(i).getNumCuenta()==idCuenta){
+									cuenta=aux.getCuentas().elementAt(i);
+									encontrado=true;
+								}
+							}
+							
+						}	
+						aux=(ClienteImp)ois.readObject();
+					}
+				}
+			}
+			
+		}catch(IOException ioe){
+			System.out.println(ioe);
+		} catch (ClassNotFoundException e) {
+			System.out.println(e);
+		}
+		return cuenta;
+	}
 	
 	
 	/*Escribir Fichero ClienteMaestro
@@ -121,7 +228,7 @@ public class GestionFicheros {
 		
 		try{
 			f=new File("ClientesMovimiento.dat");
-			fos=new FileOutputStream(f);
+			fos=new FileOutputStream(f,true);
 			moos=new MiObjectOutputStream(fos);
 			
 			moos.writeObject(c);
@@ -158,14 +265,14 @@ public class GestionFicheros {
 		FileInputStream fis=null;
 		ObjectInputStream ois=null;
 		try{
-			f=new File("ClientesMaestro.dat");
+			f=new File("ClientesMovimiento.dat");
 			fis=new FileInputStream(f);
 			ois=new ObjectInputStream(fis);
 			
-			Object cliente=(ClienteImp)ois.readObject();
+			CuentaImp cliente=(CuentaImp)ois.readObject();
 			while(cliente!=null){
 			System.out.println(cliente.toString());
-			cliente=(ClienteImp)ois.readObject();
+			cliente=(CuentaImp)ois.readObject();
 			
 			}
 		}catch(FileNotFoundException fnfe){
