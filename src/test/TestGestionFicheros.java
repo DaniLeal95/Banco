@@ -16,23 +16,24 @@ public class TestGestionFicheros {
 		
 		
 		
-		gf.mostrarFicheromaestro();
+		//gf.mostrarFicheromaestro();
 		
-		TarjetaImp t4=new TarjetaImp('D');
-		CuentaImp c1=new CuentaImp(500);
-		c1.setTarjeta(t4);
+		//TarjetaImp t4=new TarjetaImp('D');
+		//CuentaImp c1=new CuentaImp(500);
+		//c1.setTarjeta(t4);
 		//System.out.println(c1.toString());
 		
-		CuentaImp ccopiado=new CuentaImp(c1,8000);
+		//CuentaImp ccopiado=new CuentaImp(c1,8000);
 		//	gf.escribirMovimiento(ccopiado);
 		//	GregorianCalendar fnacimiento=new GregorianCalendar(12, 10, 1995);
 		//ClienteImp c2=new ClienteImp("Eduardo","Mano","Tijeras",fnacimiento,"53284930W",'H');
 		//c2.addCuenta(c1);
 		//gf.escribirCliente(c2);
 		//gf.escribirCliente(cliente);
-		gf.mostrarFicheromaestro();
-		gf.escribirMovimiento(ccopiado);
 		
+		//gf.escribirMovimiento(ccopiado);
+		gf.mostrarFicheromaestro();
+		gf.mostrarFicheromovimiento();
 		gf.actualizaClientes();
 		gf.mostrarFicheromaestro();
 		

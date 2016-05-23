@@ -9,7 +9,6 @@ import java.util.GregorianCalendar;
 import datos.ClienteImp;
 import datos.CuentaImp;
 import datos.TarjetaImp;
-import gestionyutilidades.GestionFicheros;
 
 public class MainCrearFicherosConCabecera {
 
@@ -32,7 +31,7 @@ public class MainCrearFicherosConCabecera {
 			fosmov= new FileOutputStream(fmov);
 			oosmov= new ObjectOutputStream(fosmov);
 			/*
-			 * Meto Unos cientes
+			 * Meto Un ciente 
 			 * */
 			TarjetaImp t1=new TarjetaImp('D');
 			TarjetaImp t3=new TarjetaImp('C');
@@ -51,11 +50,15 @@ public class MainCrearFicherosConCabecera {
 			
 			cl1.addCuenta(c2);
 			System.out.println(cl1.toString());
+			/*
+			 * Y ahora una cuenta en movimiento
+			 * */
 			
+			CuentaImp c1=new CuentaImp(c2,700);
 			
 			
 			oos.writeObject(cl1);
-			oosmov.writeObject(c2);
+			oosmov.writeObject(c1);
 			
 		} catch (IOException ioe) {
 			System.out.println(ioe);
@@ -66,10 +69,13 @@ public class MainCrearFicherosConCabecera {
 		}
 
 		finally {
-			if (oos != null) {
 				try {
 					// Cerrar fichero
 					oos.close();
+					fos.close();
+					
+					oosmov.close();
+					fosmov.close();
 				} catch (IOException e) {
 
 					System.out.println(e);
@@ -77,15 +83,6 @@ public class MainCrearFicherosConCabecera {
 			}
 
 		}
-
-			
-			
-		
-		
-		
-		
-
-	}
 
 }
 

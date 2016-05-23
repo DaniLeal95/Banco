@@ -53,6 +53,14 @@ public class GestionFicheros {
 			System.out.println(ioe);
 		} catch (ClassNotFoundException cnfe) {
 			System.out.println(cnfe);
+		}finally{
+			try{
+				ois.close();
+				fis.close();
+				
+			}catch(IOException ioe){
+				System.out.println(ioe);
+			}
 		}
 		
 	}
@@ -275,6 +283,7 @@ public class GestionFicheros {
 			cliente=(CuentaImp)ois.readObject();
 			
 			}
+		
 		}catch(FileNotFoundException fnfe){
 			System.out.println("Fichero no encontrado");
 		}catch(EOFException eof){
@@ -283,6 +292,14 @@ public class GestionFicheros {
 			System.out.println(ioe);
 		} catch (ClassNotFoundException cnfe) {
 			System.out.println(cnfe);
+		}finally{
+			try{
+				ois.close();
+				fis.close();
+				
+			}catch(IOException ioe){
+				System.out.println(ioe);
+			}
 		}
 		
 	}
@@ -316,11 +333,11 @@ public class GestionFicheros {
 			fis=new FileInputStream(f);
 			ois=new ObjectInputStream(fis);
 			
-			Object c=(ClienteImp)ois.readObject();
+			Object c=ois.readObject();
 		
 			while(c!=null){
 				registro++;
-				c=(ClienteImp)ois.readObject();
+				c=ois.readObject();
 			}
 		}catch(FileNotFoundException fnfe){
 			System.out.println("El fichero "+nombreFichero+" no existe");
@@ -378,10 +395,11 @@ public class GestionFicheros {
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		
-		int numregistros;
+		int numregistrosmaestro;
+		int numregistrosmovimiento;
 
 		if (fmaestro.exists() && fmovimiento.exists()) {
-			numregistros = this.contarRegistros("ClientesMaestro.dat");
+			numregistrosmaestro = this.contarRegistros("ClientesMaestro.dat");
 			try {
 
 				// Abrimos para leer el archivo maestro
@@ -394,49 +412,67 @@ public class GestionFicheros {
 				fos = new FileOutputStream(fmaestronuevo);
 				oos = new ObjectOutputStream(fos);
 
-				// leemos el primero cliente del fichero maestro
-				ClienteImp cmaestro = (ClienteImp) oism.readObject();
+				
+					
 
-				for (int i = 0; i < numregistros; i++) {
-					// Leemos el primer movimiento
-					CuentaImp cmovimiento = (CuentaImp) oismo.readObject();
-					while (cmovimiento != null) {
+				for (int i = 0; i < numregistrosmaestro; i++) {
+					// leemos el primero cliente del fichero maestro
+					ClienteImp cmaestro = (ClienteImp) oism.readObject();
+					if (cmaestro != null) {
+						numregistrosmovimiento = this.contarRegistros("ClientesMovimiento.dat");
+						for (int y = 0; y < numregistrosmovimiento; y++) {
+							// Leemos el primer movimiento
+							CuentaImp cmovimiento = (CuentaImp) oismo.readObject();
+							if (cmovimiento != null) {
 
-						for (int z = 0; z < cmaestro.getCuentas().size(); z++) {
-							// Si el numero de cuenta es el mismo
-							if (cmaestro.getCuentas().elementAt(z).getNumCuenta() == cmovimiento.getNumCuenta()) {
+								for (int z = 0; z < cmaestro.getCuentas().size(); z++) {
+									// Si el numero de cuenta es el mismo
+									if (cmaestro.getCuentas().elementAt(z).getNumCuenta() == cmovimiento
+											.getNumCuenta()) {
 
-								// le damos al saldo Del Maestro el saldo que
-								// hay en el de movimiento.
-								cmaestro.getCuentas().elementAt(z).setSaldo(cmovimiento.getSaldo());
+										// le damos al saldo Del Maestro el
+										// saldo
+										// que
+										// hay en el de movimiento.
+										cmaestro.getCuentas().elementAt(z).setSaldo(cmovimiento.getSaldo());
+										oos.writeObject(cmaestro);
+									}
+								}
 							}
 						}
-						// Volvemos a leer el siguiente movimiento
-						cmovimiento = (CuentaImp) oismo.readObject();
 					}
 
-					// Escribimos el nuevo clienteMaestro
-					oos.writeObject(cmaestro);
-					cmaestro = (ClienteImp) oism.readObject();
 				} // fin Para
 					
 				
-				//Ahora eliminamos el antiguo archivo de Maestro
-				fmaestro.delete();
-				//y renombramos el archivo maestro nuevo con el nombre del antiguo
-				fmaestronuevo.renameTo(fmaestro);
+			
+			}catch(EOFException eofe){
+				System.out.println("");
 			} catch (IOException ioe) {
 				System.out.println(ioe);
 			} catch (ClassNotFoundException e) {
 				System.out.println(e);
 			} finally {
 				try {
-					fism.close();
-					fismo.close();
-					oism.close();
 					oismo.close();
-					fos.close();
+					oism.close();
+					
+					fismo.close();
+					fism.close();
+					
 					oos.close();
+					fos.close();
+					
+					
+						//Ahora eliminamos el antiguo archivo de Maestro
+						if(fmaestro.delete()){
+						}
+					
+						//y renombramos el archivo maestro nuevo con el nombre del antiguo
+						fmaestronuevo.renameTo(fmaestro);
+					
+
+					
 				} catch (IOException ioe) {
 					System.out.println(ioe);
 				}
