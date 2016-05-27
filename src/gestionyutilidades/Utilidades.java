@@ -23,8 +23,10 @@ public class Utilidades {
 		File fmaestro=new File("ClientesMaestro.dat");
 		File fmovimiento=new File("ClientesMovimiento.dat");
 		//PARA LEER
-		FileInputStream fis=null;
-		ObjectInputStream ois=null;
+		FileInputStream fismae=null;
+		FileInputStream fismov=null;
+		ObjectInputStream oismov=null;
+		ObjectInputStream oismae=null;
 		//PARA ESCRIBIR
 		FileOutputStream fos=null;
 		MiObjectOutputStream moos=null; //Declaro los dos porque en el primer caso if si no hay archivo de movimiento lo tengo que crear con cabecera.
@@ -39,20 +41,21 @@ public class Utilidades {
 		if(!fmovimiento.exists()){
 			
 			try{
-				fis=new FileInputStream(fmaestro);		//Si el archivo de movimientos no existe, solo tenemos que mirar en el maestro
-				ois=new ObjectInputStream(fis);
+				fismae=new FileInputStream(fmaestro);		//Si el archivo de movimientos no existe, solo tenemos que mirar en el maestro
+				oismae=new ObjectInputStream(fismae);
 				
 				fos=new FileOutputStream(fmovimiento);
 				oos=new ObjectOutputStream(fos);
 				
-				aux=(CuentaImp)ois.readObject();
+				aux=(CuentaImp)oismae.readObject();
+				
 				while(aux!=null && encontrado==false){
 					if(aux.getNumCuenta()==c.getNumCuenta()){
 						c.setSaldo(aux.getSaldo()+saldo);
 						oos.writeObject(c);
 						encontrado=true;
 					}
-					aux=(CuentaImp)ois.readObject();
+					aux=(CuentaImp)oismae.readObject();
 				}
 			}catch(EOFException eofe){
 				System.out.println();
@@ -62,8 +65,8 @@ public class Utilidades {
 				System.out.println(e);
 			}finally{
 				try{
-					ois.close();
-					fis.close();
+					oismae.close();
+					fismae.close();
 					oos.close();
 					fos.close();
 				}catch(IOException ioe){
@@ -75,22 +78,23 @@ public class Utilidades {
 		else{
 			//ahora primero miramos en el de movimientos
 			try{
-				fis=new FileInputStream(fmovimiento);
-				ois=new ObjectInputStream(fis);
+				fismov=new FileInputStream(fmovimiento);
+				oismov=new ObjectInputStream(fismov);
 				
-				fos=new FileOutputStream(fmovimiento);
+				fos=new FileOutputStream(fmovimiento,true);
 				moos= new MiObjectOutputStream(fos);
 				
-				aux=(CuentaImp)ois.readObject();
+				aux=(CuentaImp)oismov.readObject();
 				CuentaImp aux2=null;
 				while(aux!=null){
 					if(c.getNumCuenta()==aux.getNumCuenta()){
-						c.setSaldo(c.getSaldo()+saldo);
-						aux=(CuentaImp)ois.readObject();
+						//c.setSaldo(c.getSaldo()+saldo);
 						if(aux!=null){
 							aux2=aux;		//Hago esta condicion, porque en el fichero puede haber mas de un movimiento de la 
 							encontrado=true;				//misma cuenta
 						}
+						aux=(CuentaImp)oismov.readObject();
+					
 					}
 				}
 				if(aux2!=null){
@@ -98,23 +102,23 @@ public class Utilidades {
 				}
 				if (!encontrado) {
 
-					fis = new FileInputStream(fmaestro); // Si el archivo de
+					fismae = new FileInputStream(fmaestro); // Si el archivo de
 															// movimientos no
 															// existe, solo
 															// tenemos que mirar
 															// en el maestro
-					ois = new ObjectInputStream(fis);
+					oismae = new ObjectInputStream(fismae);
 
 				
 
-					aux = (CuentaImp) ois.readObject();
+					aux = (CuentaImp) oismae.readObject();
 					while (aux != null && encontrado == false) {
 						if (aux.getNumCuenta() == c.getNumCuenta()) {
 							c.setSaldo(aux.getSaldo() + saldo);
-							oos.writeObject(c);
+							moos.writeObject(c);
 							encontrado = true;
 						}
-						aux = (CuentaImp) ois.readObject();
+						aux = (CuentaImp) oismae.readObject();
 					}
 
 				}
@@ -127,10 +131,18 @@ public class Utilidades {
 				System.out.println(ioe);
 			}finally{
 				try{
-					ois.close();
-					fis.close();
-					moos.close();
-					fos.close();
+					if(oismae!=null){
+						oismae.close();
+						fismae.close();
+					}
+					if(oismov!=null){
+						oismov.close();
+						fismov.close();
+					}
+					if(moos!=null){
+						moos.close();
+						fos.close();
+					}
 				}catch(IOException ioe){
 					System.out.println(ioe);
 				}

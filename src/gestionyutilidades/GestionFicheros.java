@@ -102,12 +102,11 @@ public class GestionFicheros {
 		try{
 			//fichero maestro
 			fmae= new File("ClientesMaestro.dat");
-			fismae=new FileInputStream(fmae);
-			oismae=new ObjectInputStream(fismae);
 			//fichero movimiento
 			fmov=new File("ClientesMovimiento.dat");
-			fismov=new FileInputStream(fmov);
-			oismov=new ObjectInputStream(fismov);
+			fismae=new FileInputStream(fmae);
+			oismae=new ObjectInputStream(fismae);
+
 				
 			
 			/*Si el fichero de movimiento no existe, no necesitamos mirar en el.
@@ -135,6 +134,10 @@ public class GestionFicheros {
 			 *  Si no el objeto quedara null;
 			 * */
 			else{
+				
+				fismov=new FileInputStream(fmov);
+				oismov=new ObjectInputStream(fismov);
+				
 				auxc=(CuentaImp)oismov.readObject();
 				/*Recorro el fichero entero porque puede haber mas de un movimiento
 				 * entonces me interesa mirar todos los clientes ingresados 
@@ -176,10 +179,17 @@ public class GestionFicheros {
 			System.out.println(e);
 		}finally{
 			try{
-				oismae.close();
-				oismov.close();
-				fismae.close();
-				oismov.close();
+				if(oismae!=null){
+					oismae.close();	
+					fismae.close();
+				}
+				
+				if(oismov!=null){
+					oismov.close();
+					fismov.close();
+				}
+				
+				
 			}catch(IOException ioe){
 				System.out.println(ioe);
 			}

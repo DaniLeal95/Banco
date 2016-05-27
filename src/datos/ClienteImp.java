@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.Vector;
 
@@ -26,7 +27,7 @@ import cajero.ExcepcionPersona;
  * 
  * */
 
-public class ClienteImp extends PersonaImpl implements Cliente,Cloneable{
+public class ClienteImp extends PersonaImpl implements Cliente,Cloneable,Serializable{
 	/*-----------------------*/
 	/*Atributos b�sicos*/
 	private static final long serialVersionUID = 1183469131124915878L;

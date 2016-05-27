@@ -25,7 +25,7 @@ public class MainCrearFicherosConCabecera {
 			
 			// Abrir fichero para escribir
 			f = new File("ClientesMaestro.dat");
-			fos = new FileOutputStream(f.getAbsoluteFile());
+			fos = new FileOutputStream(f);
 			oos = new ObjectOutputStream(fos);
 			fmov=new File("ClientesMovimiento.dat");
 			fosmov= new FileOutputStream(fmov);
