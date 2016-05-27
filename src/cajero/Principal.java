@@ -9,6 +9,7 @@ public class Principal {
 	 * 
 	 * PSEUDOCODIGO GENERALIZADO:
 	 * 		Inicio PP
+	 * 			MostrarClientes
 	 * 			MostrarMenu y Validar OpcionMenu
 	 * 			Mientras no quiera Salir
 	 * 				
@@ -47,12 +48,12 @@ public class Principal {
 	public static void menuPrincipal( ){
 
 			System.out.println("----Menu Principal Cajero----");
-			System.out.println("1.- Añadir Cliente");
+			System.out.println("1.- Aï¿½adir Cliente");
 			System.out.println("2.- Movimientos");
 			System.out.println("3.- Actualizar Ficheros");
 			System.out.println("0.- Salir");
 			System.out.println("------------------------");
-			System.out.println("¿Que desea hacer?");
+			System.out.println("ï¿½Que desea hacer?");
 		
 	}
 

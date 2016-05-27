@@ -8,12 +8,13 @@ import datos.ClienteImp;
 import datos.CuentaImp;
 import datos.TarjetaImp;
 import gestionyutilidades.GestionFicheros;
+import gestionyutilidades.Utilidades;
 
 public class TestGestionFicheros {
 
 	public static void main(String[] args) throws TarjetaExcepcion, ExcepcionPersona {
 		GestionFicheros gf=new GestionFicheros();
-		
+		Utilidades u=new Utilidades();
 		
 		
 		//gf.mostrarFicheromaestro();
@@ -32,10 +33,19 @@ public class TestGestionFicheros {
 		//gf.escribirCliente(cliente);
 		
 		//gf.escribirMovimiento(ccopiado);
-		gf.mostrarFicheromaestro();
-		gf.mostrarFicheromovimiento();
-		gf.actualizaClientes();
-		gf.mostrarFicheromaestro();
+		//gf.mostrarFicheromaestro();
+		//gf.mostrarFicheromovimiento();
+		//gf.actualizaClientes();
+		//gf.mostrarFicheromaestro();
+		
+		CuentaImp c=gf.obtenerCuenta(1, 1);
+		System.out.println(c.toString());
+		//u.movimientocon1cuenta(c, 500);
+		
+		//c=gf.obtenerCuenta(1, 1);
+		//System.out.println(c.toString());
+		
+		
 		
 		
 		

@@ -88,21 +88,25 @@ public class GestionFicheros {
 	public CuentaImp obtenerCuenta(long idCliente,long idCuenta){
 		CuentaImp cuenta=null;
 		
-		File f=null;
+		File fmae=null;
 		File fmov=null;
-		FileInputStream fis=null;
+		
+		FileInputStream fismae=null;
 		FileInputStream fismov=null;
-		ObjectInputStream ois=null;
+		
+		ObjectInputStream oismae=null;
 		ObjectInputStream oismov=null;
 		boolean encontrado=false;
 		ClienteImp aux=null;
 		CuentaImp auxc=null;
 		try{
-			f= new File("ClientesMaestro.dat");
+			//fichero maestro
+			fmae= new File("ClientesMaestro.dat");
+			fismae=new FileInputStream(fmae);
+			oismae=new ObjectInputStream(fismae);
+			//fichero movimiento
 			fmov=new File("ClientesMovimiento.dat");
-			fis=new FileInputStream(f);
 			fismov=new FileInputStream(fmov);
-			ois=new ObjectInputStream(fis);
 			oismov=new ObjectInputStream(fismov);
 				
 			
@@ -110,7 +114,7 @@ public class GestionFicheros {
 			 * Solo tendremos que buscar en el maestro,
 			 * */
 			if(!fmov.exists()){
-			aux=(ClienteImp)ois.readObject();
+			aux=(ClienteImp)oismae.readObject();
 				while(aux!=null && encontrado==false){
 					if(aux.getIdCliente()==idCliente){
 						
@@ -122,7 +126,7 @@ public class GestionFicheros {
 							}
 						}
 					}
-					aux=(ClienteImp)ois.readObject();
+					aux=(ClienteImp)oismae.readObject();
 				}
 			}
 			/*Si el fichero de movimientos si existe tenemos que mirar en los dos
@@ -147,7 +151,7 @@ public class GestionFicheros {
 				 * */
 				
 				if(!encontrado){
-					aux=(ClienteImp)ois.readObject();
+					aux=(ClienteImp)oismae.readObject();
 					while(aux!=null && !encontrado){
 						if(aux.getIdCliente()==idCliente){
 							
@@ -160,16 +164,27 @@ public class GestionFicheros {
 							}
 							
 						}	
-						aux=(ClienteImp)ois.readObject();
+						aux=(ClienteImp)oismae.readObject();
 					}
 				}
 			}
-			
+		}catch(EOFException eof){
+			System.out.println();
 		}catch(IOException ioe){
 			System.out.println(ioe);
 		} catch (ClassNotFoundException e) {
 			System.out.println(e);
+		}finally{
+			try{
+				oismae.close();
+				oismov.close();
+				fismae.close();
+				oismov.close();
+			}catch(IOException ioe){
+				System.out.println(ioe);
+			}
 		}
+		
 		return cuenta;
 	}
 	
@@ -294,9 +309,10 @@ public class GestionFicheros {
 			System.out.println(cnfe);
 		}finally{
 			try{
+				if(ois!=null){
 				ois.close();
 				fis.close();
-				
+				}
 			}catch(IOException ioe){
 				System.out.println(ioe);
 			}
@@ -339,6 +355,8 @@ public class GestionFicheros {
 				registro++;
 				c=ois.readObject();
 			}
+		}catch(EOFException eof){
+			System.out.println("");
 		}catch(FileNotFoundException fnfe){
 			System.out.println("El fichero "+nombreFichero+" no existe");
 		}catch(IOException ioe){
@@ -454,14 +472,18 @@ public class GestionFicheros {
 				System.out.println(e);
 			} finally {
 				try {
-					oismo.close();
-					oism.close();
-					
-					fismo.close();
-					fism.close();
-					
-					oos.close();
-					fos.close();
+					if(oismo!=null){
+						oismo.close();
+						oism.close();
+					}
+					if(fismo!=null){
+						fismo.close();
+						fism.close();
+					}
+					if(fos!=null){
+						oos.close();
+						fos.close();
+					}
 					
 					
 						//Ahora eliminamos el antiguo archivo de Maestro
