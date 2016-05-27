@@ -147,7 +147,7 @@ public class GestionFicheros {
 								cuenta=auxc;
 								encontrado=true;
 					}	
-					aux=(ClienteImp)oismov.readObject();
+					auxc=(CuentaImp)oismov.readObject();
 				}
 				/*Si no se a encontrado el cliente en el de movimientos
 				 * 	miraremos en el maestro
@@ -512,5 +512,151 @@ public class GestionFicheros {
 
 		}
 
+	}
+	
+
+	/*
+	 * Movimientos con 1 cuenta
+	 * 	Breve comentario:
+	 * 		Este metodo recibe una cuentaImp y  modifica el saldo de dicha cuenta, insertando en el fichero de movimientos la cuenta modificada.
+	 * 	Cabecera:
+	 * 		 void movimientocon1cuenta(CuentaImp c, int saldo)
+	 * 	Precondiciones:
+	 * 		nada
+	 * 	Entradas:
+	 * 		Un objeto CuentaImp a modificar y un double saldo.
+	 * 	Salidas: 
+	 * 		Escribira en el fichero
+	 * 
+	 * 
+	 * */
+	public void movimientocon1cuenta(CuentaImp c, double saldo){
+		
+		File fmaestro=new File("ClientesMaestro.dat");
+		File fmovimiento=new File("ClientesMovimiento.dat");
+		//PARA LEER
+		FileInputStream fismae=null;
+		FileInputStream fismov=null;
+		ObjectInputStream oismov=null;
+		ObjectInputStream oismae=null;
+		//PARA ESCRIBIR
+		FileOutputStream fos=null;
+		MiObjectOutputStream moos=null; //Declaro los dos porque en el primer caso if si no hay archivo de movimiento lo tengo que crear con cabecera.
+		ObjectOutputStream oos=null;
+		
+		boolean encontrado=false;//este indicador lo utilizo por si encuentra la cuenta en cuestion deje de buscar, solo sirve
+								 //para el fichero maestro.
+		
+		//CUENTA AUXILIAR
+		CuentaImp aux=null;
+		
+		if(!fmovimiento.exists()){
+			
+			try{
+				fismae=new FileInputStream(fmaestro);		//Si el archivo de movimientos no existe, solo tenemos que mirar en el maestro
+				oismae=new ObjectInputStream(fismae);
+				
+				fos=new FileOutputStream(fmovimiento);
+				oos=new ObjectOutputStream(fos);
+				
+				aux=(CuentaImp)oismae.readObject();
+				
+				while(aux!=null && encontrado==false){
+					if(aux.getNumCuenta()==c.getNumCuenta()){
+						c.setSaldo(aux.getSaldo()+saldo);
+						oos.writeObject(c);
+						encontrado=true;
+					}
+					aux=(CuentaImp)oismae.readObject();
+				}
+			}catch(EOFException eofe){
+				System.out.println();
+			}catch(IOException ioe){
+				System.out.println(ioe);
+			} catch (ClassNotFoundException e) {
+				System.out.println(e);
+			}finally{
+				try{
+					oismae.close();
+					fismae.close();
+					oos.close();
+					fos.close();
+				}catch(IOException ioe){
+					System.out.println(ioe);
+				}
+			}
+			
+		}//Fin if
+		else{
+			//ahora primero miramos en el de movimientos
+			try{
+				
+				fismov=new FileInputStream(fmovimiento);
+				oismov=new ObjectInputStream(fismov);
+				
+				fos=new FileOutputStream(fmovimiento,true);
+				moos= new MiObjectOutputStream(fos);
+				
+				
+				int numregistros=contarRegistros("ClientesMovimiento.dat");
+																//Contamos los registros y leemos el archivo de movimientos 
+				for(int i=0;i<numregistros;i++){
+					aux=(CuentaImp)oismov.readObject();
+					if(c.getNumCuenta()==aux.getNumCuenta()){
+						encontrado=true;				
+					}
+				}													//si hemos encontrado alguna cuenta con ese numero de cuenta , le asignamos	el valor del ultimo movimiento
+				if(aux!=null)c.setSaldo(aux.getSaldo()+saldo);		// mas el saldo que el usuario nos pasa por parametros.
+			
+				if (!encontrado) {
+
+					fismae = new FileInputStream(fmaestro); // Si en el archivo de
+															// movimientos no se encuentra esa cuenta, 
+															// tenemos que mirar
+															// en el maestro
+					oismae = new ObjectInputStream(fismae);
+
+				
+
+					aux = (CuentaImp) oismae.readObject();
+					while (aux != null && encontrado == false) {
+						if (aux.getNumCuenta() == c.getNumCuenta()) {
+							c.setSaldo(aux.getSaldo() + saldo);
+							
+							encontrado = true;
+						}
+						aux = (CuentaImp) oismae.readObject();
+					}
+
+				}
+				if(encontrado)moos.writeObject(c);//Y aqui escribimos en el fichero de movimiento, la cuenta con el saldo modificado, si la hemos encotrado!
+				
+			}catch(EOFException eofe){
+				System.out.println();
+			}catch(ClassNotFoundException cnfe){
+				System.out.println(cnfe);
+			}catch(IOException ioe){
+				System.out.println(ioe);
+			}finally{
+				try{
+					if(oismae!=null){
+						oismae.close();
+						fismae.close();
+					}
+					if(oismov!=null){
+						oismov.close();
+						fismov.close();
+					}
+					if(moos!=null){
+						moos.close();
+						fos.close();
+					}
+				}catch(IOException ioe){
+					System.out.println(ioe);
+				}
+			}
+			
+			
+		}
 	}
 }

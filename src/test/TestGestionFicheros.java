@@ -38,14 +38,13 @@ public class TestGestionFicheros {
 		//gf.actualizaClientes();
 		//gf.mostrarFicheromaestro();
 		
-		CuentaImp c=gf.obtenerCuenta(1, 1);
-		System.out.println(c.toString());
-		gf.mostrarFicheromovimiento();
+		//CuentaImp c=gf.obtenerCuenta(1, 1);
+		//System.out.println(c.toString());
 		
-		u.movimientocon1cuenta(c, 500);
-		gf.mostrarFicheromovimiento();
-		c=gf.obtenerCuenta(1, 1);
-		System.out.println(c.toString());
+		//gf.movimientocon1cuenta(c, -500);
+		//gf.movimientocon1cuenta(c, 500);
+		//c=gf.obtenerCuenta(1, 1);
+		//System.out.println(c.toString());
 		
 		
 		
