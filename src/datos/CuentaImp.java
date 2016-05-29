@@ -22,7 +22,7 @@ import java.util.Vector;
  * 	
  * 	Aniadidas:
  *	********
- *		void SetTarjeta(TarjetaImp t)
+ *		
  *
  *	Heredadadas:
  *	************
@@ -97,6 +97,9 @@ public class CuentaImp implements  Cuenta, Serializable {
 	}
 	public double getSaldo(){
 		return(this.saldo);
+	}
+	public Vector<TarjetaImp> getTarjetas(){
+		return (this.tarjetas);
 	}
 	//modificadores
 	
@@ -256,13 +259,13 @@ public class CuentaImp implements  Cuenta, Serializable {
 		   * Comentario: 
 		   * 	El metodo sobreescribir� la Id escrita en el fichero
 		   * Cabecera: 
-		   * 	long CogerUltimaID()
+		   * 	void escribirUltimaID(long id)
 		   * Precondiciones:Nada
 		   * 	
 		   * Entradas:Nada
-		   * Salidas:un long (ID)
+		   * Salidas:sobreescribira el fichero
 		   * Postcondiciones:
-		   * 	El long retornara asociado al nombre -> Funcion
+		   * 	nada
 		   * */	
 		
 	public void escribirUltimaID(long id){
@@ -291,35 +294,6 @@ public class CuentaImp implements  Cuenta, Serializable {
  }
 	
 	
-	/*getPrestigio
-	 * 
-	 * Breve comentario:
-	 * 		-Este metodo hará la media de todos los saldos de sus cuentas
-	 * 		y retornara un prestigio segun la media:
-	 * 				-Media mayor 20.000€ -> Buena
-	 * 				-Media entre 0€ y 19.999€ -> Normal
-	 * 				-Media menor a 0€ -> Mala
-	 * 				-Si no tiene Cuentas -> NULL
-	 * 	Cabecera: 
-	 * 		String getPrestigio()
-	 * 	Precondiciones:
-	 * 		Nada 	
-	 * 	Entradas:
-	 * 		Nada
-	 * 	Salidas:
-	 * 		Un  Prestigio (String)
-	 * 	Postcondiciones:
-	 * 		El prestigio retornara asociado al nombre -> Funcion
-	 *  
-	 * 
-	 * */
-	
-	public String getPrestigio(){
-		String prestigio=null;
-			
-		
-		return prestigio;
-	}
 	
 	/*HEREDADAS DE OBJECT*/
 

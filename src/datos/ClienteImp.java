@@ -20,8 +20,10 @@ import cajero.ExcepcionPersona;
  * Metodos a�adidos:
  * 		public long cogerUltimaId()
  * 		public void escribirUltimaId(long id)
- * 		
- * 			 
+ * Metodos heredados
+ * 		public String toString()
+ * 		public int compareTo
+ * 		public ClienteImp clone()
  * 
  * 
  * 
@@ -30,15 +32,14 @@ import cajero.ExcepcionPersona;
 public class ClienteImp extends PersonaImpl implements Cliente,Cloneable,Serializable{
 	/*-----------------------*/
 	/*Atributos b�sicos*/
-	private static final long serialVersionUID = 1183469131124915878L;
+	
 	private long idCliente;
 	private Vector<CuentaImp> cuentas;
-	
-	
 	private String observaciones;
 
 	
 	/*Atributos Compartidos*/
+	private static final long serialVersionUID = 1183469131124915878L;
 	public static long contadorclientes=0;
 	/*----------------------*/
 	
@@ -120,68 +121,6 @@ public class ClienteImp extends PersonaImpl implements Cliente,Cloneable,Seriali
 
 	
 	
-	public long cogerUltimaId(){
-		long id=0;
-		File f=new File("idclientes.dat");
-
-		
-		if(f.exists()){						//Si el archivo existe pues leemos de el la id
-			FileInputStream fis=null;
-			ObjectInputStream ois=null;
-			try{
-				fis=new FileInputStream(f);
-				ois=new ObjectInputStream(fis);	
-				
-				long aux=ois.readLong();
-				while(aux!=-1){
-					id=aux;
-					aux=ois.readLong();
-				}
-			}catch(EOFException eofe){
-				
-			}catch(IOException ioe){
-				System.out.println(ioe);
-			}
-			finally{
-				try{
-					ois.close();
-				}catch(IOException ioe){
-					System.out.println(ioe);
-				}
-			}
-		}// fin if
-		else{
-			
-		}
-		
-		return id;
-	}
-	
-	/*escribir ultima id*/
-	
-	public void escribirUltimaId(long id){
-		File f=null;
-		FileOutputStream fos= null;
-		ObjectOutputStream oos=null;
-		try{
-			f=new File("idclientes.dat");
-			fos=new FileOutputStream(f);
-			oos=new ObjectOutputStream(fos);
-			
-			oos.writeLong(id);
-		}catch(IOException ioe){
-			System.out.println(ioe);
-		}finally{
-			try{
-				oos.close();
-			}catch(IOException ioe){
-				System.out.println(ioe);
-			}
-		}
-		
-	}
-	
-	
 	/*getPrestigio
 	 * 
 	 * Breve comentario:
@@ -226,6 +165,96 @@ public class ClienteImp extends PersonaImpl implements Cliente,Cloneable,Seriali
 		
 		return prestigio;
 	}
+	/*
+	   * Estudio de la interfaz de CogerUltimaID
+	   * 
+	   * Comentario: 
+	   * 	El metodo recogera la Id escrita en ese fichero(long) y la devolvera asociada al nombre
+	   * Cabecera: 
+	   * 	long CogerUltimaID()
+	   * Precondiciones:Nada
+	   * 	
+	   * Entradas:Nada
+	   * Salidas:un long (ID)
+	   * Postcondiciones:
+	   * 	El long retornara asociado al nombre -> Funcion
+	   * */
+	public long cogerUltimaId(){
+		long id=0;
+		File f=new File("idclientes.dat");
+
+		
+		if(f.exists()){						//Si el archivo existe pues leemos de el la id
+			FileInputStream fis=null;
+			ObjectInputStream ois=null;
+			try{
+				fis=new FileInputStream(f);
+				ois=new ObjectInputStream(fis);	
+				
+				long aux=ois.readLong();
+				while(aux!=-1){
+					id=aux;
+					aux=ois.readLong();
+				}
+			}catch(EOFException eofe){
+				
+			}catch(IOException ioe){
+				System.out.println(ioe);
+			}
+			finally{
+				try{
+					ois.close();
+				}catch(IOException ioe){
+					System.out.println(ioe);
+				}
+			}
+		}// fin if
+		else{
+			
+		}
+		
+		return id;
+	}
+	  /*
+	   * Estudio de la interfaz de escribirUltimaID
+	   * 
+	   * Comentario: 
+	   * 	El metodo sobreescribir� la Id escrita en el fichero
+	   * Cabecera: 
+	   * 	void escribirUltimaID(long id)
+	   * Precondiciones:Nada
+	   * 	
+	   * Entradas:Nada
+	   * Salidas:sobreescribira el fichero
+	   * Postcondiciones:
+	   * 	nada
+	   * */	
+	
+	public void escribirUltimaId(long id){
+		File f=null;
+		FileOutputStream fos= null;
+		ObjectOutputStream oos=null;
+		try{
+			f=new File("idclientes.dat");
+			fos=new FileOutputStream(f);
+			oos=new ObjectOutputStream(fos);
+			
+			oos.writeLong(id);
+		}catch(IOException ioe){
+			System.out.println(ioe);
+		}finally{
+			try{
+				oos.close();
+			}catch(IOException ioe){
+				System.out.println(ioe);
+			}
+		}
+		
+	}
+	
+
+	
+	
 	
 	
 	/*----------------*/
