@@ -62,8 +62,6 @@ public class MainCrearFicherosConCabecera {
 			
 		} catch (IOException ioe) {
 			System.out.println(ioe);
-		} catch (TarjetaExcepcion e) {
-			e.printStackTrace();
 		} catch (ExcepcionPersona e) {
 			e.printStackTrace();
 		}

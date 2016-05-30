@@ -1,24 +1,26 @@
 package datos;
 
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import cajero.TarjetaExcepcion;
+import gestionyutilidades.Utilidades;
 
-public class TarjetaImp implements Tarjeta,Serializable {
-	
+public class TarjetaImp implements Tarjeta,Serializable,Comparable<TarjetaImp>,Cloneable {
+	Utilidades u=new Utilidades();
 	private static final long serialVersionUID = -2452366085707864944L;
 	/* 
 	 * Clase Implementada de Tarjeta 
-	 * 	Propiedades
-	 * 		string tipo -> consultable y modificable
+
+	 * 	Metodos añadidos
+	 * 		String tarjetatoCadena()
+	 * 	
+	 * 	Metodos heredados:
+	 * 		int hashCode()
+	 * 		boolean equals(Object o)
+	 * 		int compareTo(TarjetaImp t)
+	 * 		TarjetaImp clone()
+	 * 		String toString()
+	 * 
 	 * */
 	//basicas
 	private char tipo;
@@ -32,43 +34,53 @@ public class TarjetaImp implements Tarjeta,Serializable {
 			numtarjeta=contadortarjeta++;	
 		}
 		else{ 
-			numtarjeta=this.CogerUltimaID()+1;
+			numtarjeta=u.cogerUltimaId("idtarjeta.dat")+1;
 		}
 		contadortarjeta=numtarjeta;
-		this.escribirUltimaID(numtarjeta);
+		u.escribirUltimaId(numtarjeta,"idtarjeta.dat");
 		tipo=' ';
 	}
 	
-	public TarjetaImp(char tipo) throws TarjetaExcepcion{
-		if(Character.toUpperCase(tipo)!='C' && Character.toUpperCase(tipo)!='D'){
-			throw new TarjetaExcepcion("Solo puede ser de Credito o de Debito");
-		}
-		else{
+	
+	public TarjetaImp(char tipo) {
+		this();
+		if(Character.toUpperCase(tipo)=='C' || Character.toUpperCase(tipo)=='D'){
 			if(contadortarjeta!=0){
 				numtarjeta=contadortarjeta+1;
 				}
 			else{ 
-				numtarjeta=this.CogerUltimaID()+1;
+				numtarjeta=u.cogerUltimaId("idtarjeta.dat")+1;
 				
 			}
 			contadortarjeta=numtarjeta;
-			this.escribirUltimaID(numtarjeta);
+			u.escribirUltimaId(numtarjeta,"idtarjeta.dat");
 			this.tipo=tipo;
 		}
+		
 	}
-	//ESTE CONSTRUCTOR NO TIENE MUCHO SENTIDO EN MI UNIVERSO DEL DISCURSO.
+	/*Constructor de copia*/
 	public TarjetaImp(TarjetaImp tp){
 		this.tipo=tp.getTipo();
 		this.numtarjeta=tp.numtarjeta;
 	}
-	
+	/**------------------------------------------------------**/
 	/*Consultores*/
 	@Override
 	public char getTipo() {
 		return tipo;
 	}
 
+	@Override
+	public long getNumtarjeta() {
+		return numtarjeta;
+	}
 	
+	public long getNumTarjetas(){
+		return contadortarjeta;
+	}
+
+	
+	//modificadores
 	@Override
 	public void setTipo(char tipo) throws TarjetaExcepcion {
 		
@@ -79,160 +91,16 @@ public class TarjetaImp implements Tarjeta,Serializable {
 			throw new TarjetaExcepcion("Solo puede ser de Credito o de Debito");
 		}
 	}
-
-
-	@Override
-	public long getNumtarjeta() {
-		return numtarjeta;
-	}
-
-	//Metodos a�adidos
-	
-	  /*
-	   * Estudio de la interfaz de CogerUltimaID
-	   * 
-	   * Comentario: 
-	   * 	El metodo recogera la Id escrita en ese fichero(long) y la devolvera asociada al nombre
-	   * Cabecera: 
-	   * 	long CogerUltimaID()
-	   * Precondiciones:Nada
-	   * 	
-	   * Entradas:Nada
-	   * Salidas:un long (ID)
-	   * Postcondiciones:
-	   * 	El long retornara asociado al nombre -> Funcion
-	   * */
-
-		@Override
-
-		public long CogerUltimaID()
-		{
-			//variables 
-			long id=0;
-			
-			File f=null;
-			FileInputStream fis=null;
-	  		ObjectInputStream ois=null;
-			
-	  		
-	  			//abro el fichero para leer
-	  			f=new File("idtarjeta.dat");
-	  			
-	  														/*Si el archivo existe leemos*/
-	  			if(f.exists()){
-	  				
-	  				try{
-	  					fis=new FileInputStream(f);
-	  				
-	  					ois=new ObjectInputStream (fis);
-	  					long aux=ois.readLong();
-	  					while(aux!=-1){
-	  						id=aux;
-	  						aux=ois.readLong();
-	  					}
-	  				
-	  				}catch(FileNotFoundException fnfe){
-	  		  			System.out.println(fnfe);
-	  		  		}
-	  		  		catch(EOFException eofe){
-	  		  		
-	  		  		}catch(IOException io){
-	  					  System.out.println("Ha ocurrido un error " +io);
-	  				
-	  		  		}finally{
-	  					  try{								//cerramos el archivo
-	  						  ois.close();
-	  					  }catch(IOException ioe){
-	  						  System.out.println(ioe);
-	  					  }
-	  				  }
-	  				
-	  			}//fin if
-	  			
-	  			
-	  			else{										/*Si no pues lo crearemos*/
-	  				escribirUltimaID(id);
-	  				
-	  			}
-	  			
-	  		
-				
-	  		//fin finally
-	  		
-	  		
-	  			
-			return(id);
-	}
-		  /*
-		   * Estudio de la interfaz de escribirUltimaID
-		   * 
-		   * Comentario: 
-		   * 	El metodo sobreescribir� la Id escrita en el fichero
-		   * Cabecera: 
-		   * 	long CogerUltimaID()
-		   * Precondiciones:Nada
-		   * 	
-		   * Entradas:Nada
-		   * Salidas:un long (ID)
-		   * Postcondiciones:
-		   * 	El long retornara asociado al nombre -> Funcion
-		   * */	
-
-	@Override
-	public void escribirUltimaID(long id){
-		File f=null;
-		FileOutputStream fos=null;
-		ObjectOutputStream oos=null;
-  		
-  		try{
-  			//abro el fichero para leer
-  			f=new File("idtarjeta.dat");
-  			
-  			fos=new	FileOutputStream(f);
-  			
-  			oos=new ObjectOutputStream(fos);
-  			
-  			oos.writeLong(id);
-	}catch(FileNotFoundException fnfe){
-		System.out.println(fnfe);
-	} catch (IOException ioe) {
-		System.out.println(ioe);
-	}finally{
-		try {
-			oos.close();
-		} catch (IOException ioe) {
-			System.out.println(ioe);
-		}
-	}
- } 
-
-	
-	
 	
 	//Metodos sobrescritos
 	@Override
 	public int hashCode() {
-			int result = 1;
-	
-		return result;
+		return (int)(this.numtarjeta*1.2+1/2*this.numtarjeta);
 	}
 	
 	/*
 	 * Metodo equals
-	 * 	Breve comentario:
-	 * 		Este metodo comprobara que dos objetos son iguales,, si es asi retornara true , y false cuando no.
-	 * 	Cabecera:
-	 * 		boolean equals(Object o)
-	 * 	Precondiciones
-	 * 		Nada
-	 * 	Entrada
-	 * 		Un objeto
-	 * 	Salidas
-	 * 		Un boolean
-	 * 	Postcondiciones
-	 * 		El boolean retornara asociado al nombre -> Funcion
-	 * 
-	 * 
+	 * 	Criterio de igualdad:Dos tarjetas son iguales si su numero de tarjeta y su tipo son iguales.
 	 * */
 	@Override
 	public boolean equals(Object o){
@@ -249,7 +117,39 @@ public class TarjetaImp implements Tarjeta,Serializable {
 		return igual;
 		
 	}
-
+	
+	/*CompareTo
+	 * ********
+	 *  Criterio de comparacion: Compara por numero de tarjeta, retornara 1 si es mayor, -1 si es menor y 0 cuando sean iguales
+	 * */
+	@Override
+	public int compareTo(TarjetaImp t)
+	{
+		int compara = 0;
+		if(this.numtarjeta<t.numtarjeta)
+			compara = -1;
+		else
+			if(this.tipo>t.tipo)
+				compara = 1;
+		return compara;
+	}
+	
+	/*Clone*/
+	
+	@Override
+	public TarjetaImp clone()
+	{
+		TarjetaImp copia = null;
+		try{
+			copia = (TarjetaImp) super.clone();
+		}
+		catch(CloneNotSupportedException e){
+			System.out.println(e);
+		}
+		return copia;
+	}
+	
+	
 	@Override
 	public String toString() {
 		String tip="Debito";
@@ -258,7 +158,20 @@ public class TarjetaImp implements Tarjeta,Serializable {
 		
 		return "Numtarjeta: " + (numtarjeta) +", tipo: " + tip ;
 	}
-
+	
+	//Métodos añadidos
+	/*
+	 * cabecera: cadena aCadena()
+	 * comentario: el método devuelve una cadena con los valores de todos los atributos de la cuenta.
+	 * precondiciones: nada
+	 * entrada: nada
+	 * salida: una cadena
+	 * postcondiciones: cadena asociada al nombre -> Funcion
+	 */
+	public String tarjetatoCadena()
+	{
+		return getNumtarjeta()+","+getTipo();
+	}
 	
 
 
