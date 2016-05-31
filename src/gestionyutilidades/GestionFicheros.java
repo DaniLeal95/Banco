@@ -172,7 +172,6 @@ public class GestionFicheros {
 				}
 			}
 		}catch(EOFException eof){
-			System.out.println();
 		}catch(IOException ioe){
 			System.out.println(ioe);
 		} catch (ClassNotFoundException e) {

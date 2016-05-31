@@ -92,6 +92,11 @@ public class TarjetaImp implements Tarjeta,Serializable,Comparable<TarjetaImp>,C
 		}
 	}
 	
+	/*
+	 * METODOS HEREDADOS
+	 * 
+	 * */
+	
 	//Metodos sobrescritos
 	@Override
 	public int hashCode() {
@@ -158,8 +163,9 @@ public class TarjetaImp implements Tarjeta,Serializable,Comparable<TarjetaImp>,C
 		
 		return "Numtarjeta: " + (numtarjeta) +", tipo: " + tip ;
 	}
-	
-	//Métodos añadidos
+	/*
+	*	Métodos añadidos
+	*/
 	/*
 	 * cabecera: cadena aCadena()
 	 * comentario: el método devuelve una cadena con los valores de todos los atributos de la cuenta.

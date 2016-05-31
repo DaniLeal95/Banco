@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
 import datos.ClienteImp;
 import datos.CuentaImp;
 import datos.TarjetaImp;
+import gestionyutilidades.GestionFicheros;
 
 public class MainCrearFicherosConCabecera {
 
@@ -19,6 +20,8 @@ public class MainCrearFicherosConCabecera {
 		FileOutputStream fosmov=null;
 		ObjectOutputStream oos = null;
 		ObjectOutputStream oosmov=null;
+		
+		GestionFicheros gf=new GestionFicheros();
 		
 
 		try {
@@ -37,14 +40,14 @@ public class MainCrearFicherosConCabecera {
 			TarjetaImp t3=new TarjetaImp('C');
 			CuentaImp c2=new CuentaImp(900);
 			
-			c2.setTarjeta(t1);
-			c2.setTarjeta(t3);
+			c2.añadirTarjeta(t1);
+			c2.añadirTarjeta(t3);
 			
 			GregorianCalendar fnacimiento=new GregorianCalendar(1995, 12, 10);
 			
 			
 			
-			ClienteImp cl1 = new ClienteImp("Daniel", "Leal","Reyes",fnacimiento,"53284930W",'H',"Este tio es el amo");
+			ClienteImp cl1 = new ClienteImp("Daniel", "Leal Reyes",fnacimiento,"53284930W",'H',"Este tio es el amo","123456");
 			
 			
 			
@@ -53,8 +56,8 @@ public class MainCrearFicherosConCabecera {
 			/*
 			 * Y ahora una cuenta en movimiento
 			 * */
-			
-			CuentaImp c1=new CuentaImp(c2,700);
+			CuentaImp c1=gf.obtenerCuenta(1, 1);
+			gf.movimientocon1cuenta(c1, 700);
 			
 			
 			oos.writeObject(cl1);
@@ -69,11 +72,14 @@ public class MainCrearFicherosConCabecera {
 		finally {
 				try {
 					// Cerrar fichero
-					oos.close();
-					fos.close();
-					
-					oosmov.close();
-					fosmov.close();
+					if(oos!=null){
+						oos.close();
+						fos.close();
+					}
+					if(oosmov!=null){
+						oosmov.close();
+						fosmov.close();
+					}
 				} catch (IOException e) {
 
 					System.out.println(e);
