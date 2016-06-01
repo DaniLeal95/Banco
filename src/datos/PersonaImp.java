@@ -278,6 +278,24 @@ public class PersonaImp implements Serializable, Persona {
 	 {
 		 return (int)(110120203+Integer.parseInt(this.dni));
 	 }
+		/* equals
+		 * Criterio de igualdad: Dos Personas son iguales si su dni son iguales.
+	 	 * */
+		@Override
+		public boolean equals(Object o){
+			boolean igual=false;
+			if(o!=null && o  instanceof PersonaImp) {
+				PersonaImp p = (PersonaImp)  o;
+					if(p.dni == this.dni){
+						igual = true;
+					}
+				
+			}
+				
+			
+			
+			return igual;
+		}
 	 
 
 
