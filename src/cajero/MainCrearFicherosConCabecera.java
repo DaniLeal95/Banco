@@ -65,10 +65,7 @@ public class MainCrearFicherosConCabecera {
 			
 		} catch (IOException ioe) {
 			System.out.println(ioe);
-		} catch (ExcepcionPersona e) {
-			e.printStackTrace();
 		}
-
 		finally {
 				try {
 					// Cerrar fichero

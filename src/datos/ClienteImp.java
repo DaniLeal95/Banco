@@ -1,11 +1,9 @@
 package datos;
 
-
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.Vector;
 
-import cajero.ExcepcionPersona;
 import gestionyutilidades.Utilidades;
 
 
@@ -16,6 +14,8 @@ import gestionyutilidades.Utilidades;
  ********************
  *		String getPrestigio()
  *		String cuentatoCadena()
+ * 		void addCuenta(CuentaImp c)
+ * 		void deleteCuenta(long numCuenta)
  *
  * Metodos heredados:
  ********************
@@ -28,7 +28,7 @@ import gestionyutilidades.Utilidades;
  * 
  * */
 
-public class ClienteImp extends Persona implements Cliente,Cloneable,Serializable,Comparable<ClienteImp>{
+public class ClienteImp extends PersonaImp implements Cliente,Cloneable,Serializable,Comparable<ClienteImp>{
 	/*-----------------------*/
 	/*Atributos b�sicos*/
 	private long idCliente;
@@ -42,10 +42,7 @@ public class ClienteImp extends Persona implements Cliente,Cloneable,Serializabl
 	public static long contadorclientes=0;
 	/*----------------------*/
 	
-	/*
-	 * Creamos una variable de clase de Utilidades.
-	 * */
-	/*Constructores*/
+	/*Constructores ordinarios*/
 	public ClienteImp(){
 		super();
 		Utilidades u=new Utilidades();
@@ -62,7 +59,7 @@ public class ClienteImp extends Persona implements Cliente,Cloneable,Serializabl
 		this.contraseña=null;
 	}
 	
-	public ClienteImp(String nombre,String apellido,GregorianCalendar fnacimiento,String dni,char genero) throws ExcepcionPersona{
+	public ClienteImp(String nombre,String apellido,GregorianCalendar fnacimiento,String dni,char genero){
 		super(nombre,apellido,fnacimiento,dni,genero);
 		Utilidades u=new Utilidades();
 		/*Estas 4 lineas son para obtener el idCliente*/
@@ -76,7 +73,7 @@ public class ClienteImp extends Persona implements Cliente,Cloneable,Serializabl
 		this.contraseña=null;
 	}
 	
-	public ClienteImp(String nombre,String apellido,GregorianCalendar fnacimiento,String dni,char genero,String observaciones,String contraseña) throws ExcepcionPersona{
+	public ClienteImp(String nombre,String apellido,GregorianCalendar fnacimiento,String dni,char genero,String observaciones,String contraseña){
 		super(nombre,apellido,fnacimiento,dni,genero);
 		Utilidades u=new Utilidades();
 		/*Estas 4 lineas son para obtener el idCliente*/
@@ -115,7 +112,8 @@ public class ClienteImp extends Persona implements Cliente,Cloneable,Serializabl
 	public String getContraseña(){
 		return this.contraseña;
 	}
-	/*METODOS REDEFINIDOS*/
+
+	/*METODOS CONSULTORES REDEFINIDOS*/
 	@Override
 	public String getNombre(){
 		return (super.getNombre());
@@ -129,16 +127,20 @@ public class ClienteImp extends Persona implements Cliente,Cloneable,Serializabl
 	public String getDni(){
 		return(super.getDni());
 	}
-	
+	@Override
+	public GregorianCalendar getFNacimiento(){
+		return (super.getFNacimiento());
+	}
+	@Override
+	public char getGenero(){
+		return(super.getGenero());
+	}
 	/**---------------
 	 * Modificadores-
 	 * --------------
 	 ***/
 	
-	public void addCuenta(CuentaImp c){
-		this.cuentas.add(c);
-	}
-	
+
 	@Override
 	public void setObservaciones(String observaciones){
 		this.observaciones=observaciones;
@@ -147,9 +149,83 @@ public class ClienteImp extends Persona implements Cliente,Cloneable,Serializabl
 	public void setContraseña(String contraseña){
 		this.contraseña=contraseña;
 	}
+	public void setCuentas(Vector<CuentaImp> cuentas){
+		this.cuentas=cuentas;
+	}
 	
-	
+	/*METODOS MODIFICADORES REDEFINIDOS*/
+	@Override
+	public void setNombre(String nombre){
+		super.setNombre(nombre);
+	}
+	@Override
+	public void setApellido(String apellido){
+		super.setApellido(apellido);
+	}
+	@Override
+	public void setDni(String dni)throws PersonaNoValida{
+		super.setDni(dni);
+	}
+	@Override
+	public void setGenero(char genero) throws PersonaNoValida{
+		super.setGenero(genero);
+	}
+	@Override
+	public void setFNacimiento(GregorianCalendar fNacimiento) throws PersonaNoValida{
+		if(super.obtenerEdad(fNacimiento)<16){
+			throw new PersonaNoValida("La persona debe tener almenos 16 anos");
+		}
+		else{
+			System.out.println("FECHA VALIDA");
+			super.setFNacimiento(fNacimiento);
+		}
+	}
 	/*Metodos a�adidos*/
+
+	
+	//addCuenta
+	/*
+	 * Breve comentario:
+	 * 	-Este metodo añadira una CuentaImp al vector cuentas
+	 * Cabecera:
+	 * 	void addCuenta(CuentaImp c)
+	 * Precondiciones:
+	 * 	Nada
+	 * Entradas:
+	 * 	Una CuentaImp
+	 * Salidas:
+	 * 	Nada
+	 * Postcondiciones:	
+	 * 	Nada
+	 * 
+	 * */
+	public void addCuenta(CuentaImp c){
+		this.cuentas.add(c);
+	}
+	
+	//deleteCuenta
+	/*
+	 * Breve comentario:
+	 * 	-Este metodo eliminara una CuentaImp del vector cuentas
+	 * Cabecera:
+	 * 	void deleteCuenta(long numCuenta)
+	 * Precondiciones:
+	 * 	Nada, si el numCuenta no existe no eliminara nada
+	 * Entradas:
+	 * 	Un long id
+	 * Salidas:
+	 * 	Nada
+	 * Postcondiciones:	
+	 * 	Nada
+	 * 
+	 * */
+	public void deleteCuenta(long numCuenta){
+		for(int i=0;i<this.cuentas.size();i++){	
+			if(this.cuentas.elementAt(i).getNumCuenta()==numCuenta){
+				this.cuentas.removeElementAt(i);
+			}
+		}
+	}
 
 	
 	
@@ -172,8 +248,6 @@ public class ClienteImp extends Persona implements Cliente,Cloneable,Serializabl
 	 * 		Un  Prestigio (String)
 	 * 	Postcondiciones:
 	 * 		El prestigio retornara asociado al nombre -> Funcion
-	 *  
-	 * 
 	 * */
 	
 	public String getPrestigio(){

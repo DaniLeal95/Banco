@@ -2,9 +2,9 @@ package test;
 
 import java.util.GregorianCalendar;
 
-import cajero.ExcepcionPersona;
 import datos.ClienteImp;
 import datos.CuentaImp;
+import datos.PersonaNoValida;
 import datos.TarjetaImp;
 import gestionyutilidades.GestionFicheros;
 
@@ -13,7 +13,6 @@ public class TestClienteImp {
 	public static void main(String[] args) {
 		GestionFicheros gf=new GestionFicheros();
 		
-		try {
 			TarjetaImp t1=new TarjetaImp('D');
 			TarjetaImp t2=new TarjetaImp('C');
 			TarjetaImp t3=new TarjetaImp('C');
@@ -36,19 +35,26 @@ public class TestClienteImp {
 			
 			
 			
-			cl1.addCuenta(c2);
+			/*cl1.addCuenta(c2);
 			cl2.addCuenta(c1);
 			System.out.println(cl1.toString());
 			System.out.println(cl2.toString());
 			
 			gf.escribirCliente(cl1);
-			gf.escribirCliente( cl2);
+			gf.escribirCliente( cl2);*/
 			
-			
+			GregorianCalendar fechaValida=new GregorianCalendar(1992,4,16);
+			//GregorianCalendar fechanoValida=new GregorianCalendar(2002,4,16);
+			GregorianCalendar fechanoValida2=new GregorianCalendar(2000,5,2);
+			try{
+				cl1.setFNacimiento(fechaValida);
+				//cl1.setFNacimiento(fechanoValida);
+				cl1.setFNacimiento(fechanoValida2);
+			}catch(PersonaNoValida p){
+				System.out.println(p);
+			}
 		
-		} catch (ExcepcionPersona ep) {
-			System.out.println(ep);
-		}
+	
 		
 	}
 

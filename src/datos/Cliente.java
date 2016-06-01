@@ -12,9 +12,6 @@ public interface Cliente {
  * 		
  * 		Derivadas:
  * 		---------
- * 			Calculadas:
- * 			-----------
- * 				Prestigio - cadena , consultable
  * 
  * 			Compartida:
  * 			-----------

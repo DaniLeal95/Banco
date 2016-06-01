@@ -45,15 +45,6 @@ public class TarjetaImp implements Tarjeta,Serializable,Comparable<TarjetaImp>,C
 	public TarjetaImp(char tipo) {
 		this();
 		if(Character.toUpperCase(tipo)=='C' || Character.toUpperCase(tipo)=='D'){
-			if(contadortarjeta!=0){
-				numtarjeta=contadortarjeta+1;
-				}
-			else{ 
-				numtarjeta=u.cogerUltimaId("idtarjeta.dat")+1;
-				
-			}
-			contadortarjeta=numtarjeta;
-			u.escribirUltimaId(numtarjeta,"idtarjeta.dat");
 			this.tipo=tipo;
 		}
 		

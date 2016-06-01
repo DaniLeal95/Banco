@@ -2,7 +2,6 @@ package test;
 
 import java.util.GregorianCalendar;
 
-import cajero.ExcepcionPersona;
 import cajero.TarjetaExcepcion;
 import datos.ClienteImp;
 import datos.CuentaImp;
@@ -12,7 +11,7 @@ import gestionyutilidades.Utilidades;
 
 public class TestGestionFicheros {
 
-	public static void main(String[] args) throws TarjetaExcepcion, ExcepcionPersona {
+	public static void main(String[] args) throws TarjetaExcepcion {
 		GestionFicheros gf=new GestionFicheros();
 		Utilidades u=new Utilidades();
 		
