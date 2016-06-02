@@ -10,7 +10,10 @@ public class TarjetaImp implements Tarjeta,Serializable,Comparable<TarjetaImp>,C
 	private static final long serialVersionUID = -2452366085707864944L;
 	/* 
 	 * Clase Implementada de Tarjeta 
-
+	 * 
+	 * Restricciones;
+	 * 	El pin debe tener una longitud de 4 digitos.
+	 * 
 	 * 	Metodos añadidos
 	 * 		String tarjetatoCadena()
 	 * 	
@@ -25,13 +28,14 @@ public class TarjetaImp implements Tarjeta,Serializable,Comparable<TarjetaImp>,C
 	//basicas
 	private char tipo;
 	private long numtarjeta;
+	private String pin;
 	//compartidas
 	public static long contadortarjeta=0;
 	
 	//constructores
 	public TarjetaImp(){
 		if(contadortarjeta!=0){
-			numtarjeta=contadortarjeta++;	
+			numtarjeta=contadortarjeta+1;	
 		}
 		else{ 
 			numtarjeta=u.cogerUltimaId("idtarjeta.dat")+1;
@@ -39,20 +43,28 @@ public class TarjetaImp implements Tarjeta,Serializable,Comparable<TarjetaImp>,C
 		contadortarjeta=numtarjeta;
 		u.escribirUltimaId(numtarjeta,"idtarjeta.dat");
 		tipo=' ';
+		pin="0000";
 	}
 	
 	
-	public TarjetaImp(char tipo) {
+	public TarjetaImp(char tipo,String pin) {
 		this();
 		if(Character.toUpperCase(tipo)=='C' || Character.toUpperCase(tipo)=='D'){
 			this.tipo=tipo;
 		}
+		
+		if(u.validarPin(pin)){
+			this.pin=pin;
+		}
+		
+		//fin comprobacion del pin
 		
 	}
 	/*Constructor de copia*/
 	public TarjetaImp(TarjetaImp tp){
 		this.tipo=tp.getTipo();
 		this.numtarjeta=tp.numtarjeta;
+		this.pin=tp.pin;
 	}
 	/**------------------------------------------------------**/
 	/*Consultores*/
@@ -60,7 +72,10 @@ public class TarjetaImp implements Tarjeta,Serializable,Comparable<TarjetaImp>,C
 	public char getTipo() {
 		return tipo;
 	}
-
+	@Override
+	public String getPin(){
+		return pin;
+	}
 	@Override
 	public long getNumtarjeta() {
 		return numtarjeta;
@@ -82,6 +97,42 @@ public class TarjetaImp implements Tarjeta,Serializable,Comparable<TarjetaImp>,C
 			throw new TarjetaExcepcion("Solo puede ser de Credito o de Debito");
 		}
 	}
+	@Override
+	public void setPin(String pin) throws TarjetaExcepcion {
+		if(!u.validarPin(pin))
+			throw new TarjetaExcepcion("El pin introducido es incorrecto");
+		else
+			this.pin=pin;
+	}
+	
+	/*
+	*	Métodos añadidos
+	*/
+	
+	
+	/*
+	 *  comentario: 
+	 *  	el método devuelve una cadena con los valores de todos 
+	 *  		los atributos de la cuenta.
+	 * cabecera: 
+	 * 		String tarjetatoCadena()
+	 *
+	 * precondiciones:
+	 * 		 nada
+	 * entrada:
+	 * 		 nada
+	 * salida: 
+	 * 		una cadena
+	 * postcondiciones:
+	 * 		 cadena asociada al nombre -> Funcion
+	 */
+	public String tarjetatoCadena()
+	{
+		return getNumtarjeta()+","+getTipo()+","+getPin();
+	}
+	
+	/*-------FIN METODOS AÑADIDOS---------*/
+	
 	
 	/*
 	 * METODOS HEREDADOS
@@ -152,23 +203,9 @@ public class TarjetaImp implements Tarjeta,Serializable,Comparable<TarjetaImp>,C
 		if(tipo=='C')tip="Credito";	//esto simplemente es estetico, 
 					//para que en vez que en el toString muestre un char nos muestre una cadena
 		
-		return "Numtarjeta: " + (numtarjeta) +", tipo: " + tip ;
+		return "Numtarjeta: " + (numtarjeta) +", tipo: " + tip +", Pin: "+this.pin;
 	}
-	/*
-	*	Métodos añadidos
-	*/
-	/*
-	 * cabecera: cadena aCadena()
-	 * comentario: el método devuelve una cadena con los valores de todos los atributos de la cuenta.
-	 * precondiciones: nada
-	 * entrada: nada
-	 * salida: una cadena
-	 * postcondiciones: cadena asociada al nombre -> Funcion
-	 */
-	public String tarjetatoCadena()
-	{
-		return getNumtarjeta()+","+getTipo();
-	}
+
 	
 
 

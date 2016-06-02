@@ -15,6 +15,7 @@ import java.util.GregorianCalendar;
  * 
  * Metodos anadidos:
  * 	String personatoCadena()
+ * 	int obtenerEdad()
  * 
  * 
  * 
@@ -22,11 +23,10 @@ import java.util.GregorianCalendar;
  * equals()
  * String toString()
  * int hashCode()
- * comparable()
- * clone()
+ * PersonaImp clone()
  */
 
-public class PersonaImp implements Serializable, Persona {
+public class PersonaImp implements Serializable, Persona,Cloneable, Comparable<PersonaImp> {
 	
 	//Atributos compartidos
 	private static final long serialVersionUID = 4007293735854407963L;
@@ -47,7 +47,7 @@ public class PersonaImp implements Serializable, Persona {
 		this.genero=' ';
 		this.telefono=null;
 		this.direccion=null;
-		this.fNacimiento=null;
+		this.fNacimiento=new GregorianCalendar();
 	}
 	
 	public PersonaImp(String nombre, String apellido, GregorianCalendar fNacimiento, String dni, char genero){
@@ -65,7 +65,7 @@ public class PersonaImp implements Serializable, Persona {
 			}
 		}
 	}
-	public PersonaImp(String nombre,String apellido,String dni, char genero, String telefono, String direccion,GregorianCalendar fNacimiento){
+	public PersonaImp(String nombre,String apellido,GregorianCalendar fNacimiento,String dni, char genero, String direccion, String telefono){
 		this();
 		GregorianCalendar fActual=new GregorianCalendar();
 		if(fNacimiento.compareTo(fActual)<0){
@@ -218,9 +218,11 @@ public class PersonaImp implements Serializable, Persona {
 		 */
 		
 		public String personatoCadena(){
-			return (this.getNombre()+","+this.getApellido()+","+this.getGenero()+","+this.getDni()+","+this.getDireccion()+","+this.getTelefono());
+			String s;
+			String fecha=Integer.toString(this.fNacimiento.get(GregorianCalendar.DAY_OF_MONTH))+"/"+Integer.toString(this.fNacimiento.get(GregorianCalendar.MONTH))+"/"+Integer.toString(this.fNacimiento.get(GregorianCalendar.YEAR));
+			s=(this.nombre+","+this.apellido+","+fecha+","+this.dni+","+this.genero+","+this.direccion+","+this.telefono);
+			return (s);
 		}
-		
 		/*	obtenerEdad
 		 * -Breve Comentario:
 		 * 	 Este metodo recibe un objeto GregorianCalendar y lo compara con la fecha actual
@@ -237,7 +239,7 @@ public class PersonaImp implements Serializable, Persona {
 		 * Postcondiciones:
 		 * 	el entero retornara asociado al nombre -> FUNCION
 		 * */
-		public int obtenerEdad(GregorianCalendar fNacimiento){
+		public int obtenerEdad(){
 			GregorianCalendar fActual=new GregorianCalendar();
 			
 			int edad=-1;
@@ -251,24 +253,30 @@ public class PersonaImp implements Serializable, Persona {
 					//Si el mes es el mismo , y el dia de nuestro nacimiento es posterior
 					//al dia actual quiere decir que aun no hemos cumplido años
 					//entonces le tenemos que restar uno a nuestra Edad
+					//O el mes de nuestra fecha de nacimiento es mayor a el de la fecha actual
+					//tambien tenemos que restarle 1 a la edad.
 					if((fNacimiento.get(GregorianCalendar.MONTH))==
 							(fActual.get(GregorianCalendar.MONTH)) 
 							&& 
 							((fNacimiento.get(GregorianCalendar.DAY_OF_MONTH))>
-							(fActual.get(GregorianCalendar.DAY_OF_MONTH)))){
+							(fActual.get(GregorianCalendar.DAY_OF_MONTH)))
+							||(fNacimiento.get(GregorianCalendar.MONTH)> fActual.get(GregorianCalendar.MONTH))
+							){
 								edad--;
 					}
 				}
 			}
 			return edad;
 		}
+		/*----FIN METODOS AÑADIDOS----*/
 	 //Metodos heredados
 
 	 //Metodo toString
 	 @Override
 	 public String toString()
 	 {
-		 String s= ("\nNombre: "+this.getNombre()+"\nPrimer apellido: "+this.getApellido()+"\nFecha de nacimiento: "+this.getFNacimiento()+"\nGenero: "+this.getGenero()+"\nDni: "+this.getDni()+"\nTelefono: "+this.getTelefono()+"\nDireccion: "+this.getDireccion());
+		 String fecha=Integer.toString(this.fNacimiento.get(GregorianCalendar.DAY_OF_MONTH))+"/"+Integer.toString(this.fNacimiento.get(GregorianCalendar.MONTH))+"/"+Integer.toString(this.fNacimiento.get(GregorianCalendar.YEAR));
+		 String s= ("\nNombre: "+this.getNombre()+"\nApellido: "+this.getApellido()+"\nFecha de nacimiento: "+fecha+"\nGenero: "+this.getGenero()+"\nDni: "+this.getDni()+"\nTelefono: "+this.getTelefono()+"\nDireccion: "+this.getDireccion());
 		 return s;
 	 }
 	 
@@ -276,27 +284,57 @@ public class PersonaImp implements Serializable, Persona {
 	 @Override
 	 public int hashCode()
 	 {
-		 return (int)(110120203+Integer.parseInt(this.dni));
+		 return ((int)(Integer.parseInt(telefono)*1/2));
 	 }
 		/* equals
 		 * Criterio de igualdad: Dos Personas son iguales si su dni son iguales.
 	 	 * */
-		@Override
-		public boolean equals(Object o){
-			boolean igual=false;
-			if(o!=null && o  instanceof PersonaImp) {
-				PersonaImp p = (PersonaImp)  o;
-					if(p.dni == this.dni){
-						igual = true;
-					}
-				
+	@Override
+	public boolean equals(Object o) {
+		boolean igual = false;
+		if (o != null && o instanceof PersonaImp) {
+			PersonaImp p = (PersonaImp) o;
+			if (p.dni == this.dni) {
+				igual = true;
 			}
-				
-			
-			
-			return igual;
+
 		}
-	 
+
+		return igual;
+	}
+	
+	@Override
+	public PersonaImp clone(){
+	PersonaImp p=null;
+		try{
+			p=(PersonaImp) super.clone();
+		}catch(CloneNotSupportedException cnse){
+			System.out.println(cnse);
+		}
+		return p;
+	}
+	/*compareTo
+	 * 
+	 * Criterio de comparacion:
+	 * 		La persona se comparará por la Fnacimiento.
+	 * 			Si la fecha de nacimiento es mayor a 
+	 * 			la fecha que nos pasan por parametros  retornara 1;
+	 * 				si es menor -1, 0 si son iguales.
+	 * 			 
+	 * */
+	@Override
+	public int compareTo(PersonaImp p){
+		int comparada=0;
+		if(this.fNacimiento.compareTo(p.fNacimiento)<0){
+			 comparada= -1;
+		}
+		else if (this.fNacimiento.compareTo(p.fNacimiento)>0){
+			comparada = 1;
+		}
+			
+		return comparada;
+		
+	}
 
 
 

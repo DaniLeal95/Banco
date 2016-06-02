@@ -22,7 +22,6 @@ import gestionyutilidades.Utilidades;
  *
  *	Heredadadas:
  *	************
- *		boolean equals(CuentaImp),
  *		int hashCode(),
  *		void toString(),
  *		CuentaImp clone(),
@@ -52,7 +51,7 @@ public class CuentaImp implements  Cuenta, Serializable, Cloneable, Comparable<C
 	//PropiedadesCompartidas
 	public static long contadorCuentas=0;
 	
-	//constructores
+	//constructores ordinarios
 	public CuentaImp(){
 		Utilidades u=new Utilidades();
 		saldo=0;
@@ -71,6 +70,12 @@ public class CuentaImp implements  Cuenta, Serializable, Cloneable, Comparable<C
 		this();
 		this.saldo=saldo;
 		tarjetas=new Vector<TarjetaImp>(0,1);
+	}
+	
+	public CuentaImp(long saldo,Vector<TarjetaImp> tarjetas){
+		this();
+		this.saldo=saldo;
+		this.tarjetas=tarjetas;
 	}
 	//Constructor de copia
 	public CuentaImp(CuentaImp c){
@@ -109,7 +114,8 @@ public class CuentaImp implements  Cuenta, Serializable, Cloneable, Comparable<C
 	 * setTarjeta
 	 * 	Breve Comentario:
 	 * -----------------
-	 * 		Este metodo recibe por parametros una TarjetaImp y lo a�ade al vector de tarjetas
+	 * 		Este metodo recibe por parametros una TarjetaImp y 
+	 * 			lo a�ade al vector de tarjetas si 
 	 * 
 	 * 	Cabecera:
 	 * ----------
@@ -134,7 +140,44 @@ public class CuentaImp implements  Cuenta, Serializable, Cloneable, Comparable<C
 	 * */
 	
 	public void añadirTarjeta(TarjetaImp t){
-		this.tarjetas.add(t);
+		boolean encontrado=false;
+		for(int i=0; i<this.tarjetas.size() || !encontrado ;i++){
+			
+		}
+		if(!encontrado){
+			this.tarjetas.add(t);
+		}
+	}
+	
+	
+	//eliminartarjeta
+	/*
+	 * Breve comentario:
+	 * 	-Este metodo eliminara una Tarjeta del vector tarjetas
+	 * Cabecera:
+	 * 	void eliminarTarjeta(long numtarjeta)
+	 * Precondiciones:
+	 * 	Nada, si el numtarjeta no existe no eliminara nada
+	 * Entradas:
+	 * 	Un long id
+	 * Salidas:
+	 * 	Nada
+	 * Postcondiciones:	
+	 * 	Nada
+	 * 
+	 * */
+	/*	RESGUARDO
+	 * 
+	 * public void eliminarTarjeta(long numtarjeta){
+	 * 	System.out.println("eliminarTarjeta esta construccion");
+	 * }
+	 * */
+	public void eliminarTarjeta(TarjetaImp tarjeta){
+		for(int i=0;i<this.tarjetas.size();i++){	
+			if(this.tarjetas.elementAt(i).getNumtarjeta()==tarjeta.getNumtarjeta()){
+				this.tarjetas.removeElementAt(i);
+			}
+		}
 	}
 	
 		/*CuentatoCadena

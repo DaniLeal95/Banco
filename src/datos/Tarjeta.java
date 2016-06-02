@@ -13,12 +13,15 @@ public interface Tarjeta {
 	 * 	Propiedades Compartidas
 	 * 		long contadortarjeta -> consultable
 	 * */
-	//consultores y modificadores
+	//consultores
 	public char getTipo();
-
-	public void setTipo(char tipo) throws TarjetaExcepcion;
-
+	public String getPin();
 	public long getNumtarjeta();
+	//modificadores
+	public void setTipo(char tipo) throws TarjetaExcepcion;
+	public void setPin(String pin) throws TarjetaExcepcion;
+
+	
 
 
 }

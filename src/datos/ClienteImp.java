@@ -23,12 +23,13 @@ import gestionyutilidades.Utilidades;
  * 		public int compareTo(ClienteImp c)
  * 		public ClienteImp clone()
  * 		public boolean equals(Object o)
+ * 		public int hashCode()
  * 
  * 
  * 
  * */
 
-public class ClienteImp extends PersonaImp implements Cliente,Cloneable,Serializable,Comparable<ClienteImp>{
+public class ClienteImp extends PersonaImp implements Cliente,Cloneable,Serializable{
 	/*-----------------------*/
 	/*Atributos b�sicos*/
 	private long idCliente;
@@ -172,13 +173,7 @@ public class ClienteImp extends PersonaImp implements Cliente,Cloneable,Serializ
 	}
 	@Override
 	public void setFNacimiento(GregorianCalendar fNacimiento) throws PersonaNoValida{
-		if(super.obtenerEdad(fNacimiento)<16){
-			throw new PersonaNoValida("La persona debe tener almenos 16 anos");
-		}
-		else{
-			System.out.println("FECHA VALIDA");
-			super.setFNacimiento(fNacimiento);
-		}
+		super.setFNacimiento(fNacimiento);
 	}
 	/*Metodos a�adidos*/
 
@@ -304,7 +299,10 @@ public class ClienteImp extends PersonaImp implements Cliente,Cloneable,Serializ
 		}
 		return "Nombre cliente: "+getNombre()+", IdCliente: " + idCliente + "\ncuentas:" + cuenta + "\n observaciones: " + observaciones + "\n\n--------------------------------";
 	}
-
+	@Override
+	public int hashCode(){
+		return (int)(idCliente+1/2*Integer.parseInt(contraseña));
+	}
 	
 	/*
 	 * CompareTo
@@ -324,17 +322,9 @@ public class ClienteImp extends PersonaImp implements Cliente,Cloneable,Serializ
 		return comparado;
 	}
 	
-	/*
-	 * 
-	 * */
-	@Override
 	public ClienteImp clone(){
 		ClienteImp copia=null;
-		try{
-			copia = (ClienteImp) super.clone();
-		}catch(CloneNotSupportedException cnse){
-			System.out.println(cnse);
-		}
+		copia = (ClienteImp) clone();
 		return copia;
 	}
 	
@@ -356,6 +346,8 @@ public class ClienteImp extends PersonaImp implements Cliente,Cloneable,Serializ
 		
 		return igual;
 	}
+	
+	
 	
 /*-------FIN METODOS HEREDADOS---------*/
 	

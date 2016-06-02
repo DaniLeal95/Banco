@@ -36,8 +36,8 @@ public class MainCrearFicherosConCabecera {
 			/*
 			 * Meto Un ciente 
 			 * */
-			TarjetaImp t1=new TarjetaImp('D');
-			TarjetaImp t3=new TarjetaImp('C');
+			TarjetaImp t1=new TarjetaImp('D',"1111");
+			TarjetaImp t3=new TarjetaImp('C',"1234");
 			CuentaImp c2=new CuentaImp(900);
 			
 			c2.añadirTarjeta(t1);
