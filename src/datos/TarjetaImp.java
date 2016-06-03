@@ -6,8 +6,12 @@ import cajero.TarjetaExcepcion;
 import gestionyutilidades.Utilidades;
 
 public class TarjetaImp implements Tarjeta,Serializable,Comparable<TarjetaImp>,Cloneable {
-	Utilidades u=new Utilidades();
-	private static final long serialVersionUID = -2452366085707864944L;
+
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2552394970522188468L;
 	/* 
 	 * Clase Implementada de Tarjeta 
 	 * 
@@ -34,6 +38,7 @@ public class TarjetaImp implements Tarjeta,Serializable,Comparable<TarjetaImp>,C
 	
 	//constructores
 	public TarjetaImp(){
+		Utilidades u=new Utilidades();
 		if(contadortarjeta!=0){
 			numtarjeta=contadortarjeta+1;	
 		}
@@ -49,6 +54,7 @@ public class TarjetaImp implements Tarjeta,Serializable,Comparable<TarjetaImp>,C
 	
 	public TarjetaImp(char tipo,String pin) {
 		this();
+		Utilidades u=new Utilidades();
 		if(Character.toUpperCase(tipo)=='C' || Character.toUpperCase(tipo)=='D'){
 			this.tipo=tipo;
 		}
@@ -99,6 +105,7 @@ public class TarjetaImp implements Tarjeta,Serializable,Comparable<TarjetaImp>,C
 	}
 	@Override
 	public void setPin(String pin) throws TarjetaExcepcion {
+		Utilidades u=new Utilidades();
 		if(!u.validarPin(pin))
 			throw new TarjetaExcepcion("El pin introducido es incorrecto");
 		else

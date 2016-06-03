@@ -33,8 +33,8 @@ public class MainCrearFicherosConCabecera {
 			fmov=new File("ClientesMovimiento.dat");
 			fosmov= new FileOutputStream(fmov);
 			oosmov= new ObjectOutputStream(fosmov);
-			/*
-			 * Meto Un ciente 
+			/* *
+			 * Meto Dos cientes: uno usuario y otro Administrador. 
 			 * */
 			TarjetaImp t1=new TarjetaImp('D',"1111");
 			TarjetaImp t3=new TarjetaImp('C',"1234");
@@ -44,22 +44,26 @@ public class MainCrearFicherosConCabecera {
 			c2.añadirTarjeta(t3);
 			
 			GregorianCalendar fnacimiento=new GregorianCalendar(1995, 12, 10);
+			GregorianCalendar fActual=new GregorianCalendar();
 			
 			
-			
+			ClienteImp clAdministrador= new ClienteImp("ADMIN","ADMIN",fActual,"00000000A",'H',"ADMINISTRADOR DEL SISTEMA", "111111");
 			ClienteImp cl1 = new ClienteImp("Daniel", "Leal Reyes",fnacimiento,"53284930W",'H',"Este tio es el amo","123456");
+			
+			
 			
 			
 			
 			cl1.addCuenta(c2);
 			System.out.println(cl1.toString());
+			System.out.println(clAdministrador.toString());
 			/*
 			 * Y ahora una cuenta en movimiento
 			 * */
 			CuentaImp c1=gf.obtenerCuenta(1, 1);
 			gf.movimientocon1cuenta(c1, 700);
 			
-			
+			oos.writeObject(clAdministrador);
 			oos.writeObject(cl1);
 			oosmov.writeObject(c1);
 			

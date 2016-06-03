@@ -8,12 +8,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import cajero.MiObjectOutputStream;
 import datos.ClienteImp;
 import datos.CuentaImp;
 
-public class GestionFicheros {
+public class GestionFicheros  {
+
+
+
 	/*
 	 * Metodo mostrarFicheromaestro
 	 * 	Breve Comentario:
@@ -34,29 +38,33 @@ public class GestionFicheros {
 		File f=null;
 		FileInputStream fis=null;
 		ObjectInputStream ois=null;
+		
 		try{
 			f=new File("ClientesMaestro.dat");
 			fis=new FileInputStream(f);
 			ois=new ObjectInputStream(fis);
+				ClienteImp cliente=(ClienteImp)ois.readObject();
+				while(cliente!=null){
+					System.out.println(cliente.toString());
+					cliente=(ClienteImp)ois.readObject();
+				}
 			
-			Object cliente=(ClienteImp)ois.readObject();
-			while(cliente!=null){
-			System.out.println(cliente.toString());
-			cliente=(ClienteImp)ois.readObject();
+				
 			
-			}
 		}catch(FileNotFoundException fnfe){
 			System.out.println("Fichero no encontrado");
 		}catch(EOFException eof){
-			System.out.println("");
+		
 		}	catch (IOException ioe) {
 			System.out.println(ioe);
 		} catch (ClassNotFoundException cnfe) {
 			System.out.println(cnfe);
 		}finally{
 			try{
-				ois.close();
-				fis.close();
+				if(ois!=null){
+					ois.close();
+					fis.close();
+				}
 				
 			}catch(IOException ioe){
 				System.out.println(ioe);
@@ -213,7 +221,8 @@ public class GestionFicheros {
 	 * 		Escribirá el objeto en el fichero.
 	 * */
 	public void escribirCliente(ClienteImp cliente){
-		
+		boolean valida=true;
+		Utilidades u= new Utilidades();
 		File f=null;
 		FileOutputStream fos=null;
 		MiObjectOutputStream oos=null;
@@ -222,19 +231,36 @@ public class GestionFicheros {
 			fos=new FileOutputStream(f,true);
 			oos=new MiObjectOutputStream(fos);
 			
-			oos.writeObject(cliente);
+			/*for(int i=0;i<cliente.getCuentas().size() && valida; i++){
+				
+				for(int j=0;j<cliente.getCuentas().elementAt(i).getTarjetas().size() && valida;j++){
+					
+					//si la llamada a validar Tarjeta es falso, no se podra registrar ese cliente.
+					if(!u.validarTarjetaRegistrada
+						(cliente.getCuentas().elementAt(i).
+								getTarjetas().elementAt(j).getNumtarjeta())){
+						
+						valida=false;
+					}
+				}
+			}
+			
+			if(valida)*/
+				oos.writeObject(cliente);
 			
 		}catch(IOException ioe){
 			System.out.println(ioe);
 		}finally{
-			if(fos!=null && oos!=null){
+			
 				try{
-					fos.close();
+					if(oos!=null){
 					oos.close();
+					fos.close();
+					}
 				}catch(IOException ioe){
 					System.out.println(ioe);
 				}
-			}
+			
 		}
 	}
 	
@@ -373,14 +399,16 @@ public class GestionFicheros {
 		} catch (ClassNotFoundException e) {
 			System.out.println(e);
 		}finally{
-			if(f!=null){
+			
 				try{
-					ois.close();
-					fis.close();
+					if(ois!=null){
+						ois.close();
+						fis.close();
+					}
 				}catch(IOException ioe){
 					System.out.println(ioe);
 				}
-			}
+			
 		}
 	
 		return registro;

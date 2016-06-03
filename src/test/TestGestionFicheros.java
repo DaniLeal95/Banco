@@ -11,12 +11,38 @@ import gestionyutilidades.Utilidades;
 
 public class TestGestionFicheros {
 
-	public static void main(String[] args) throws TarjetaExcepcion {
+	public static void main(String[] args) {
 		GestionFicheros gf=new GestionFicheros();
 		Utilidades u=new Utilidades();
 		
+		//mostrarFicheroMaestro
 		
 		//gf.mostrarFicheromaestro();
+		
+		//ObtenerCuenta
+		//CuentaImp obtenida=gf.obtenerCuenta(2, 1);
+		//System.out.println(obtenida.toString());
+		
+		//escribir cliente
+		TarjetaImp t1=new TarjetaImp('D',"1111");
+		TarjetaImp t3=new TarjetaImp('C',"1234");
+		CuentaImp c2=new CuentaImp(900);
+		
+		c2.añadirTarjeta(t1);
+		c2.añadirTarjeta(t3);
+		GregorianCalendar fnacimiento=new GregorianCalendar(1995, 12, 10);
+		ClienteImp cl1 = new ClienteImp("EAESA", "Leal Reyes",fnacimiento,"53284930W",'H',"Este tio es el amo","123456");
+		
+		
+		
+		
+		
+		cl1.addCuenta(c2);
+		
+		
+		gf.escribirCliente(cl1);
+		gf.mostrarFicheromaestro();
+		
 		
 		//TarjetaImp t4=new TarjetaImp('D');
 		//CuentaImp c1=new CuentaImp(500);

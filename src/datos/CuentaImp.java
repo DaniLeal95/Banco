@@ -35,12 +35,11 @@ public class CuentaImp implements  Cuenta, Serializable, Cloneable, Comparable<C
 	
 	
 	
-	
-	/**
-	 * UID
-	 */
-	private static final long serialVersionUID = 1183469131124915878L;
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1851317503457735857L;
 	//ATRIBUTOS
 	private long numCuenta;
 	private double saldo;
@@ -49,7 +48,8 @@ public class CuentaImp implements  Cuenta, Serializable, Cloneable, Comparable<C
 
 	
 	//PropiedadesCompartidas
-	public static long contadorCuentas=0;
+	public transient static long contadorCuentas=0;
+	
 	
 	//constructores ordinarios
 	public CuentaImp(){
@@ -114,8 +114,8 @@ public class CuentaImp implements  Cuenta, Serializable, Cloneable, Comparable<C
 	 * setTarjeta
 	 * 	Breve Comentario:
 	 * -----------------
-	 * 		Este metodo recibe por parametros una TarjetaImp y 
-	 * 			lo a�ade al vector de tarjetas si 
+	 * 		Este metodo recibe por parametros una TarjetaImp y si no esta registrada en otra cuenta
+	 * 			lo aniade al vector de tarjetas
 	 * 
 	 * 	Cabecera:
 	 * ----------
@@ -123,7 +123,7 @@ public class CuentaImp implements  Cuenta, Serializable, Cloneable, Comparable<C
 	 * 		
 	 * Precondiciones:
 	 * --------------
-	 * 		Nada
+	 * 		Nada, si la tarjeta ya esta registrada con otra tarjeta o en esa misma, no la insertara
 	 * 
 	 * Entradas:
 	 * ----------
@@ -140,13 +140,15 @@ public class CuentaImp implements  Cuenta, Serializable, Cloneable, Comparable<C
 	 * */
 	
 	public void añadirTarjeta(TarjetaImp t){
-		boolean encontrado=false;
-		for(int i=0; i<this.tarjetas.size() || !encontrado ;i++){
-			
-		}
-		if(!encontrado){
+		Utilidades u=new Utilidades();
+		
+		//boolean valida=u.validarTarjetaRegistrada(t.getNumtarjeta());
+		//if(valida){
 			this.tarjetas.add(t);
-		}
+		/*}
+		else{
+			System.out.println("ERROR:Tarjeta No Añadida");
+		}*/
 	}
 	
 	
@@ -195,7 +197,12 @@ public class CuentaImp implements  Cuenta, Serializable, Cloneable, Comparable<C
 		 * 		 el String retornara asociado  al nombre -> Funcion
 		 */
 		public String cuentatoCadena(){
-			return getNumCuenta()+", "+getSaldo()+", "+getTarjetas();
+			String tarjetas="";
+			for(int i=0;i<getTarjetas().size();i++){
+				tarjetas=tarjetas.concat(getTarjetas().elementAt(i).tarjetatoCadena());
+			}
+			
+			return getNumCuenta()+", "+getSaldo()+", "+tarjetas;
 		}
 	
 	
@@ -256,6 +263,13 @@ public class CuentaImp implements  Cuenta, Serializable, Cloneable, Comparable<C
 	@Override
 	public int compareTo(CuentaImp c){
 		int comparada= 0;
+		
+		if(this.getNumCuenta()>c.getNumCuenta()){
+			comparada=1;
+		}
+		else if(this.getNumCuenta()<c.getNumCuenta()){
+			comparada=-1;
+		}
 		
 		return comparada;
 	}

@@ -28,8 +28,12 @@ import java.util.GregorianCalendar;
 
 public class PersonaImp implements Serializable, Persona,Cloneable, Comparable<PersonaImp> {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1535886074536612368L;
 	//Atributos compartidos
-	private static final long serialVersionUID = 4007293735854407963L;
+	
 	//Atributos basicos
 	private String nombre;
 	private String apellido;
@@ -41,12 +45,12 @@ public class PersonaImp implements Serializable, Persona,Cloneable, Comparable<P
 
 	//constructores ordinarios
 	public PersonaImp(){
-		this.nombre=null;
-		this.apellido=null;
-		this.dni=null;
+		this.nombre=" ";
+		this.apellido=" ";
+		this.dni=" " ;
 		this.genero=' ';
-		this.telefono=null;
-		this.direccion=null;
+		this.telefono=" ";
+		this.direccion=" " ;
 		this.fNacimiento=new GregorianCalendar();
 	}
 	

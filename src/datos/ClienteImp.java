@@ -30,6 +30,10 @@ import gestionyutilidades.Utilidades;
  * */
 
 public class ClienteImp extends PersonaImp implements Cliente,Cloneable,Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2995685764709883913L;
 	/*-----------------------*/
 	/*Atributos b�sicos*/
 	private long idCliente;
@@ -39,7 +43,6 @@ public class ClienteImp extends PersonaImp implements Cliente,Cloneable,Serializ
 
 	
 	/*Atributos Compartidos*/
-	private static final long serialVersionUID = 1183469131124915878L;
 	public static long contadorclientes=0;
 	/*----------------------*/
 	
@@ -56,8 +59,8 @@ public class ClienteImp extends PersonaImp implements Cliente,Cloneable,Serializ
 		
 		/*-------------------------------------------*/
 		this.cuentas=new Vector<CuentaImp>(0,1);
-		this.observaciones=null;
-		this.contraseña=null;
+		this.observaciones=" ";
+		this.contraseña=" ";
 	}
 	
 	public ClienteImp(String nombre,String apellido,GregorianCalendar fnacimiento,String dni,char genero){
@@ -92,8 +95,17 @@ public class ClienteImp extends PersonaImp implements Cliente,Cloneable,Serializ
 		this.contraseña=contraseña;
 	}
 	
+	//constructor de copia
+	public ClienteImp(ClienteImp c){
+		super(c.getNombre(),c.getApellido(),c.getFNacimiento(),c.getDni(),c.getGenero());
+		this.idCliente=c.idCliente;
+		this.cuentas=c.cuentas;
+		this.observaciones=c.observaciones;
+		this.contraseña=c.contraseña;
+	}
+	
 	/*----------------*/
-
+	
 	
 	@Override
 	public long getIdCliente(){
@@ -283,7 +295,12 @@ public class ClienteImp extends PersonaImp implements Cliente,Cloneable,Serializ
 	 * 		 el String retornara asociado  al nombre -> Funcion
 	 */
 	public String clientetoCadena(){
-		return getIdCliente()+", "+getNombre()+", "+getApellido();
+		
+		String cuentas="";
+		for(int i=0;i<getCuentas().size();i++){
+			cuentas=cuentas.concat(getCuentas().elementAt(i).cuentatoCadena());
+		}
+		return getIdCliente()+", "+getNombre()+", "+getApellido()+", "+cuentas;
 	}
 
 	/*-------FIN METODOS AÑADIDOS---------*/
@@ -322,9 +339,17 @@ public class ClienteImp extends PersonaImp implements Cliente,Cloneable,Serializ
 		return comparado;
 	}
 	
+	@Override
 	public ClienteImp clone(){
 		ClienteImp copia=null;
-		copia = (ClienteImp) clone();
+		
+		copia = (ClienteImp) super.clone();
+		//TENEMOS QUE UTILIZAR EL CLONE DE VECTOR PORQUE SI NO HACE UNA REFERENCIA.
+		copia.setCuentas((Vector<CuentaImp>) this.getCuentas().clone());
+		copia.setContraseña(this.getContraseña());
+		copia.setObservaciones(this.getObservaciones());
+		copia.idCliente=this.idCliente;
+		
 		return copia;
 	}
 	
